@@ -248,7 +248,7 @@ export const Chip = styled.span`
 export const ButtonRow = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.25rem;
   justify-content: center;
   align-items: stretch;
 
@@ -256,7 +256,7 @@ export const ButtonRow = styled(motion.div)`
     width: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 0.875rem;
+    gap: 1.25rem;
   }
 
   .ant-btn {
@@ -277,7 +277,7 @@ export const ButtonRow = styled(motion.div)`
     .ant-space {
       width: auto;
       flex-direction: row;
-      gap: 0;
+      gap: 1rem;
     }
 
     .ant-btn {

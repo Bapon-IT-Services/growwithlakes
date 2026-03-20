@@ -4,8 +4,9 @@ import { motion } from 'framer-motion';
 export const Section = styled.section`
   position: relative;
   z-index: 1;
-  padding: 5.5rem 1.5rem 6.5rem;
+  padding: 6rem 1.5rem 6.5rem;
   background: transparent;
+  scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
 

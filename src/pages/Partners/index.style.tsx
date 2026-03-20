@@ -1,11 +1,12 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const Section = styled.section`
   position: relative;
   z-index: 1;
-  padding: 5.5rem 1.5rem;
+  padding: 6rem 1.5rem;
   background: transparent;
+  scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
@@ -48,18 +49,50 @@ export const Intro = styled.p`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
-export const PartnerGrid = styled(motion.ul)`
-  list-style: none;
-  margin: 0 0 2.5rem;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
+const marquee = keyframes`
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 `;
 
-export const PartnerItem = styled(motion.li)`
-  padding: 0.7rem 1.25rem;
+export const PartnerMarqueeViewport = styled(motion.div)`
+  position: relative;
+  z-index: 1;
+  margin: 0 0 2.5rem;
+  overflow: hidden;
+
+  /* Soft fade at edges for a more premium look */
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+`;
+
+export const PartnerMarqueeTrack = styled.div`
+  display: flex;
+  gap: 0;
+  width: max-content;
+  animation: ${marquee} 26s linear infinite;
+  will-change: transform;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`;
+
+export const PartnerGroup = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+  align-items: center;
+`;
+
+export const PartnerItem = styled(motion.div)`
+  padding: 0.65rem 1.15rem;
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -73,7 +106,7 @@ export const PartnerItem = styled(motion.li)`
 export const CtaRow = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.25rem;
   justify-content: center;
   align-items: stretch;
 
@@ -81,7 +114,7 @@ export const CtaRow = styled(motion.div)`
     width: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 0.875rem;
+    gap: 1.25rem;
   }
 
   .ant-btn {
@@ -99,7 +132,7 @@ export const CtaRow = styled(motion.div)`
     .ant-space {
       width: auto;
       flex-direction: row;
-      gap: 0;
+      gap: 1rem;
     }
 
     .ant-btn {

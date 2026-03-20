@@ -23,7 +23,7 @@ export default function WhatIDo() {
       <S.Inner>
         <Reveal>
           <S.Header>
-            <S.Label>Services</S.Label>
+            {/* <S.Label>Services</S.Label> */}
             <S.Title>What I do</S.Title>
           </S.Header>
         </Reveal>

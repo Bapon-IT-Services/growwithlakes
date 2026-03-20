@@ -46,6 +46,18 @@ export const popIn: Variants = {
   },
 };
 
+export const partnerNameIn: Variants = {
+  hidden: { opacity: 0, scale: 0.9, y: 26, x: -10, filter: 'blur(6px)' },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.6, ease: easeOut },
+  },
+};
+
 export const cardLift = {
   rest: { y: 0, scale: 1 },
   hover: {

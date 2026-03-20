@@ -1,7 +1,7 @@
 import { Button, Space } from 'antd';
 import Reveal from '../../components/Reveal';
 import { links } from '../../config/links';
-import { fadeUp, popIn, staggerFast } from '../../motion/variants';
+import { fadeUp, partnerNameIn, staggerFast } from '../../motion/variants';
 import * as S from './index.style';
 
 const partnerNames = [
@@ -27,29 +27,53 @@ export default function Partners() {
             </S.Intro>
           </S.Header>
         </Reveal>
-        <S.PartnerGrid
+        <S.PartnerMarqueeViewport
           variants={staggerFast}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: '-10% 0px' }}
+          viewport={{ once: true, amount: 0.2 }}
           aria-label="Partner organisations"
         >
-          {partnerNames.map((name) => (
-            <S.PartnerItem
-              key={name}
-              variants={popIn}
-              whileHover={{
-                scale: 1.05,
-                y: -3,
-                boxShadow: '0 20px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(212, 175, 55, 0.35)',
-                transition: { type: 'spring', stiffness: 420, damping: 22 },
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {name}
-            </S.PartnerItem>
-          ))}
-        </S.PartnerGrid>
+          <S.PartnerMarqueeTrack>
+            <S.PartnerGroup aria-hidden>
+              {partnerNames.map((name) => (
+                <S.PartnerItem
+                  key={`a-${name}`}
+                  variants={partnerNameIn}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -3,
+                    boxShadow:
+                      '0 20px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(212, 175, 55, 0.35)',
+                    transition: { type: 'spring', stiffness: 420, damping: 22 },
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {name}
+                </S.PartnerItem>
+              ))}
+            </S.PartnerGroup>
+
+            <S.PartnerGroup aria-hidden>
+              {partnerNames.map((name) => (
+                <S.PartnerItem
+                  key={`b-${name}`}
+                  variants={partnerNameIn}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -3,
+                    boxShadow:
+                      '0 20px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(212, 175, 55, 0.35)',
+                    transition: { type: 'spring', stiffness: 420, damping: 22 },
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {name}
+                </S.PartnerItem>
+              ))}
+            </S.PartnerGroup>
+          </S.PartnerMarqueeTrack>
+        </S.PartnerMarqueeViewport>
         <S.CtaRow
           variants={fadeUp}
           initial="hidden"

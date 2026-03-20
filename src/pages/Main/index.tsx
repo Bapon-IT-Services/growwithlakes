@@ -6,6 +6,7 @@ import WhatIDo from '../WhatIDo';
 import Opportunities from '../Opportunities';
 import Partners from '../Partners';
 import Contact from '../Contact';
+import Footer from '../Footer';
 import * as S from './index.style';
 
 export default function Main() {
@@ -20,6 +21,7 @@ export default function Main() {
         <Opportunities />
         <Partners />
         <Contact />
+        <Footer />
       </S.Main>
     </S.Page>
   );

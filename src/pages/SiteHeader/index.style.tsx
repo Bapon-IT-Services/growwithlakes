@@ -79,6 +79,15 @@ export const NavLink = styled.a`
   &:hover::after {
     transform: scaleX(1);
   }
+
+  &[data-active='true'] {
+    color: ${({ theme }) => theme.colors.gold};
+  }
+
+  &[data-active='true']::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 `;
 
 export const NavCompact = styled.nav`
