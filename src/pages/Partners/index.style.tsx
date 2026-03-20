@@ -72,7 +72,38 @@ export const PartnerItem = styled(motion.li)`
 
 export const CtaRow = styled(motion.div)`
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.875rem;
   justify-content: center;
+  align-items: stretch;
+
+  .ant-space {
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.875rem;
+  }
+
+  .ant-btn {
+    width: 100%;
+    min-width: 0;
+    height: 50px !important;
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    .ant-space {
+      width: auto;
+      flex-direction: row;
+      gap: 0;
+    }
+
+    .ant-btn {
+      width: auto;
+    }
+  }
 `;

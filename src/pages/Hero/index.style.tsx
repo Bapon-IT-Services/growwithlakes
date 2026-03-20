@@ -247,21 +247,43 @@ export const Chip = styled.span`
 
 export const ButtonRow = styled(motion.div)`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.875rem;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 
-  @media (min-width: 1024px) {
-    justify-content: flex-start;
+  .ant-space {
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.875rem;
   }
 
   .ant-btn {
-    min-width: 9.5rem;
+    width: 100%;
+    min-width: 0;
     height: 50px !important;
     padding-inline: 1.35rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+
+    .ant-space {
+      width: auto;
+      flex-direction: row;
+      gap: 0;
+    }
+
+    .ant-btn {
+      width: auto;
+      min-width: 9.5rem;
+    }
   }
 
   .ant-btn-primary {
