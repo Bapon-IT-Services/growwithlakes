@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const Section = styled.section`
@@ -49,15 +49,6 @@ export const Intro = styled.p`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
-const marquee = keyframes`
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-`;
-
 export const PartnerMarqueeViewport = styled(motion.div)`
   position: relative;
   z-index: 1;
@@ -68,20 +59,11 @@ export const PartnerMarqueeViewport = styled(motion.div)`
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 `;
 
-export const PartnerMarqueeTrack = styled.div`
+export const PartnerMarqueeTrack = styled(motion.div)`
   display: flex;
   gap: 0;
   width: max-content;
-  animation: ${marquee} 26s linear infinite;
   will-change: transform;
-
-  &:hover {
-    animation-play-state: paused;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
 `;
 
 export const PartnerGroup = styled.div`
@@ -92,15 +74,45 @@ export const PartnerGroup = styled.div`
 `;
 
 export const PartnerItem = styled(motion.div)`
-  padding: 0.65rem 1.15rem;
-  font-size: 0.8125rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.white};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  padding: 0.2rem 0.55rem;
+  text-align: center;
   background: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radius.pill};
+  border: 0;
+  border-radius: 0;
   cursor: default;
+`;
+
+export const PartnerLogo = styled.span`
+  width: clamp(56px, 9vw, 100px);
+  height: clamp(56px, 9vw, 100px);
+  border-radius: clamp(10px, 2vw, 18px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.goldBright};
+
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 28px rgba(212, 175, 55, 0.12));
+  }
+`;
+
+export const PartnerName = styled.span`
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+  line-height: 1.15;
+  opacity: 0.8;
 `;
 
 export const CtaRow = styled(motion.div)`
