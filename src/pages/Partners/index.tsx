@@ -64,7 +64,7 @@ const partners = [
   //   logoSrc: 'https://www.google.com/s2/favicons?domain=vevo.com&sz=256',
   // },
 ] as const;
-
+//logos//
 export default function Partners() {
   const reducedMotion = useReducedMotion();
   const groupARef = useRef<HTMLDivElement | null>(null);
