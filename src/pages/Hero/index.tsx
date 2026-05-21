@@ -1,6 +1,7 @@
-import { PlayCircleOutlined, TeamOutlined } from '@ant-design/icons';
+import { PauseCircleOutlined, PlayCircleOutlined, TeamOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import { motion } from 'framer-motion';
+import { useDrLakesAudio } from '../../context/DrLakesAudioContext';
 import { links } from '../../config/links';
 import { staggerHero, fadeUp } from '../../motion/variants';
 import * as S from './index.style';
@@ -10,6 +11,8 @@ const waveHeights = [20, 32, 48, 26, 58, 36, 52, 24, 56, 34, 44, 22, 50, 30, 40]
 const chips = ['Media & hosting', 'A&R & development', 'Coaching', 'Partnerships'] as const;
 
 export default function Hero() {
+  const { isPlaying, togglePlayback } = useDrLakesAudio();
+
   return (
     <S.Section id="top">
       <S.Atmosphere aria-hidden />
@@ -40,12 +43,11 @@ export default function Hero() {
                   <Button
                     type="primary"
                     size="large"
-                    href={links.listenNow}
-                    target="_blank"
-                    rel="noreferrer"
-                    icon={<PlayCircleOutlined />}
+                    onClick={togglePlayback}
+                    icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+                    aria-label={isPlaying ? 'Pause Dr Lakes audio' : 'Play Dr Lakes audio'}
                   >
-                    Listen Now
+                    {isPlaying ? 'Pause' : 'Listen Now'}
                   </Button>
                   <Button size="large" href={links.workWithMe} icon={<TeamOutlined />}>
                     Work With Me

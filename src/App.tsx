@@ -3,12 +3,14 @@ import { MotionConfig } from 'framer-motion';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './styles/global';
 import { theme } from './styles/theme';
+import { DrLakesAudioProvider } from './context/DrLakesAudioContext';
 import Main from './pages/Main';
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <MotionConfig reducedMotion="user">
+        <DrLakesAudioProvider>
         <ConfigProvider
           theme={{
             algorithm: antdTheme.darkAlgorithm,
@@ -42,6 +44,7 @@ export default function App() {
           <GlobalStyle />
           <Main />
         </ConfigProvider>
+        </DrLakesAudioProvider>
       </MotionConfig>
     </ThemeProvider>
   );
