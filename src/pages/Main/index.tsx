@@ -1,3 +1,5 @@
+import { useLayoutEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import PageBackdrop from '../../components/PageBackdrop';
 import { useScrollToHash } from '../../hooks/useScrollToHash';
 import SiteHeader from '../SiteHeader';
@@ -11,7 +13,14 @@ import Footer from '../Footer';
 import * as S from './index.style';
 
 export default function Main() {
+  const { hash } = useLocation();
   useScrollToHash();
+
+  useLayoutEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [hash]);
 
   return (
     <S.Page>

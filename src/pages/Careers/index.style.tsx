@@ -287,6 +287,18 @@ export const RoleList = styled(motion.ol)`
   gap: 0;
 `;
 
+export const RoleActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+
+  @media (max-width: 639px) {
+    grid-column: 2 / -1;
+    justify-self: end;
+  }
+`;
+
 export const RoleItem = styled(motion.li)`
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -296,12 +308,7 @@ export const RoleItem = styled(motion.li)`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 
   @media (max-width: 639px) {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
-
-    a {
-      grid-column: 1 / -1;
-    }
+    grid-template-columns: auto 1fr auto;
   }
 `;
 
@@ -342,6 +349,51 @@ export const RoleSummary = styled.p`
   font-size: 0.9375rem;
   line-height: 1.65;
   color: ${({ theme }) => theme.colors.muted};
+`;
+
+export const RoleDescription = styled(motion.div)`
+  overflow: hidden;
+`;
+
+export const RoleDescriptionInner = styled.p`
+  margin: 1rem 0 0;
+  padding: 1rem 1.125rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: ${({ theme }) => theme.colors.muted};
+  border-left: 2px solid rgba(212, 175, 55, 0.45);
+  border-radius: 0 ${({ theme }) => theme.radius.sm} ${({ theme }) => theme.radius.sm} 0;
+  background: rgba(212, 175, 55, 0.06);
+`;
+
+export const ExpandButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height:1rem;
+  padding: 0;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: ${({ theme }) => theme.radius.sm};
+  background: rgba(212, 175, 55, 0.08);
+  color: ${({ theme }) => theme.colors.gold};
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    background: rgba(212, 175, 55, 0.16);
+    border-color: rgba(212, 175, 55, 0.55);
+    color: ${({ theme }) => theme.colors.goldBright};
+  }
+
+  &[data-expanded='true'] {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.55);
+  }
 `;
 
 export const CtaBand = styled.section`

@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import { useEffect } from 'react';
 import Reveal from '../../components/Reveal';
 import { careerRoles, focusAreas } from '../../config/careers';
+import CareerRoleItem from './CareerRoleItem';
 import { links } from '../../config/links';
 import { popIn, staggerFast } from '../../motion/variants';
 import CareersHeader from './CareersHeader';
@@ -53,26 +54,7 @@ export default function CareersPage() {
             viewport={{ once: true, margin: '-6% 0px' }}
           >
             {careerRoles.map((role, index) => (
-              <S.RoleItem
-                key={role.id}
-                variants={popIn}
-                whileHover={{
-                  x: 4,
-                  transition: { type: 'spring', stiffness: 400, damping: 28 },
-                }}
-              >
-                <S.RoleIndex aria-hidden>
-                  {String(index + 1).padStart(2, '0')}
-                </S.RoleIndex>
-                <S.RoleBody>
-                  <S.RoleMeta>{role.type}</S.RoleMeta>
-                  <S.RoleTitle>{role.title}</S.RoleTitle>
-                  <S.RoleSummary>{role.summary}</S.RoleSummary>
-                </S.RoleBody>
-                <Button type="primary" href={role.applyHref}>
-                  Apply
-                </Button>
-              </S.RoleItem>
+              <CareerRoleItem key={role.id} role={role} index={index} />
             ))}
           </S.RoleList>
         </S.RolesSection>
