@@ -10,11 +10,12 @@ import {
 } from 'react';
 import drlakesAudioUrl from '../assets/drlakes/drlakes_audio.mpeg?url';
 
-const HERO_SECTION_ID = 'top';
+export const HERO_SECTION_ID = 'top';
 
 type DrLakesAudioContextValue = {
   isPlaying: boolean;
   togglePlayback: () => void;
+  registerHero: (element: HTMLElement) => () => void;
 };
 
 const DrLakesAudioContext = createContext<DrLakesAudioContextValue | null>(null);
@@ -40,6 +41,10 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
   const playAudio = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio || userPausedRef.current || !heroInViewRef.current) return;
+
+    if (audio.ended) {
+      audio.currentTime = 0;
+    }
 
     if (!canResumePlayback(audio)) return;
 
@@ -79,11 +84,20 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
     audio.addEventListener('pause', onPause);
     audio.addEventListener('ended', onEnded);
 
-    const hero = document.getElementById(HERO_SECTION_ID);
-    let observer: IntersectionObserver | undefined;
+    return () => {
+      audio.removeEventListener('play', onPlay);
+      audio.removeEventListener('pause', onPause);
+      audio.removeEventListener('ended', onEnded);
+      audio.pause();
+      audio.src = '';
+      audioRef.current = null;
+      heroInViewRef.current = false;
+    };
+  }, [syncPlayingState]);
 
-    if (hero) {
-      observer = new IntersectionObserver(
+  const registerHero = useCallback(
+    (element: HTMLElement) => {
+      const observer = new IntersectionObserver(
         ([entry]) => {
           if (!entry) return;
 
@@ -97,20 +111,17 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
         },
         { threshold: 0.35, rootMargin: '-72px 0px 0px 0px' }
       );
-      observer.observe(hero);
-    }
 
-    return () => {
-      observer?.disconnect();
-      audio.removeEventListener('play', onPlay);
-      audio.removeEventListener('pause', onPause);
-      audio.removeEventListener('ended', onEnded);
-      audio.pause();
-      audio.src = '';
-      audioRef.current = null;
-      heroInViewRef.current = false;
-    };
-  }, [playAudio, pauseForHeroLeave, syncPlayingState]);
+      observer.observe(element);
+
+      return () => {
+        observer.disconnect();
+        heroInViewRef.current = false;
+        pauseForHeroLeave();
+      };
+    },
+    [playAudio, pauseForHeroLeave]
+  );
 
   const togglePlayback = useCallback(() => {
     const audio = audioRef.current;
@@ -135,13 +146,24 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
   }, [pauseByUser, syncPlayingState]);
 
   const value = useMemo(
-    () => ({ isPlaying, togglePlayback }),
-    [isPlaying, togglePlayback]
+    () => ({ isPlaying, togglePlayback, registerHero }),
+    [isPlaying, togglePlayback, registerHero]
   );
 
   return (
     <DrLakesAudioContext.Provider value={value}>{children}</DrLakesAudioContext.Provider>
   );
+}
+
+/** Wire hero section visibility to audio — call from Hero only. */
+export function useDrLakesHeroAudio() {
+  const { registerHero } = useDrLakesAudio();
+
+  useEffect(() => {
+    const hero = document.getElementById(HERO_SECTION_ID);
+    if (!hero) return;
+    return registerHero(hero);
+  }, [registerHero]);
 }
 
 export function useDrLakesAudio() {

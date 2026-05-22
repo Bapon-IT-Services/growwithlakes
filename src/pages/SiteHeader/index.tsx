@@ -1,29 +1,32 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button } from 'antd';
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import MobileNavMenu from '../../components/MobileNavMenu';
+import { buildMobileNavLinks, homeNavItems } from '../../config/navigation';
+import { links } from '../../config/links';
 import * as S from './index.style';
 
 const MotionHeader = motion(S.Header);
 
-const navItems = [
-  { href: '#about', label: 'About' },
-  { href: '#services', label: 'What I do' },
-  { href: '#opportunities', label: 'Opportunities' },
-  { href: '#partners', label: 'Partners' },
-  { href: '#contact', label: 'Contact' },
-] as const;
-
 export default function SiteHeader() {
+  const { pathname } = useLocation();
   const [activeId, setActiveId] = useState<string>('');
   const rafRef = useRef<number | null>(null);
+  const isHome = pathname === '/';
 
   const sectionIds = useMemo(
-    () => navItems.map((item) => item.href.replace(/^#/, '')),
+    () =>
+      homeNavItems.flatMap((item) => (item.sectionId ? [item.sectionId] : [])),
     []
   );
 
   useEffect(() => {
-    const HEADER_OFFSET = 86; // headerHeight(72px) + comfortable breathing room
+    if (!isHome) {
+      setActiveId('');
+      return;
+    }
+
+    const HEADER_OFFSET = 86;
 
     const computeActive = () => {
       let bestId = '';
@@ -34,7 +37,6 @@ export default function SiteHeader() {
         if (!el) continue;
 
         const top = el.getBoundingClientRect().top;
-        // Select the section whose top is closest to the header, but not below it.
         if (top <= HEADER_OFFSET + 10 && top > bestTop) {
           bestTop = top;
           bestId = id;
@@ -61,7 +63,12 @@ export default function SiteHeader() {
       window.removeEventListener('resize', onScrollOrResize);
       if (rafRef.current !== null) window.cancelAnimationFrame(rafRef.current);
     };
-  }, [sectionIds]);
+  }, [sectionIds, isHome]);
+
+  const mobileLinks = useMemo(
+    () => buildMobileNavLinks(pathname, isHome, activeId),
+    [pathname, isHome, activeId]
+  );
 
   return (
     <MotionHeader
@@ -71,25 +78,41 @@ export default function SiteHeader() {
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
     >
       <S.Inner>
-        <S.Brand href="#top">
+        <S.Brand as={Link} to="/">
           Grow With <span>Lakes</span>
         </S.Brand>
         <S.Nav aria-label="Primary">
-          {navItems.map((item) => (
-            <S.NavLink
-              key={item.href}
-              href={item.href}
-              data-active={activeId === item.href.replace(/^#/, '')}
-            >
-              {item.label}
-            </S.NavLink>
-          ))}
+          {homeNavItems.map((item) => {
+            const isCareers = item.sectionId === null;
+            const isActive = isCareers
+              ? pathname === links.careers
+              : isHome && activeId === item.sectionId;
+
+            if (isCareers) {
+              return (
+                <S.NavLink
+                  key={item.to}
+                  as={Link}
+                  to={item.to}
+                  data-active={isActive}
+                >
+                  {item.label}
+                </S.NavLink>
+              );
+            }
+
+            const href = isHome ? `#${item.sectionId}` : `/#${item.sectionId}`;
+
+            return (
+              <S.NavLink key={item.to} href={href} data-active={isActive}>
+                {item.label}
+              </S.NavLink>
+            );
+          })}
         </S.Nav>
-        <S.NavCompact aria-label="Contact shortcut">
-          <Button type="link" href="#contact" size="small" style={{ color: '#d4af37' }}>
-            Contact
-          </Button>
-        </S.NavCompact>
+        <S.NavMobile>
+          <MobileNavMenu links={mobileLinks} />
+        </S.NavMobile>
       </S.Inner>
     </MotionHeader>
   );

@@ -1,0 +1,406 @@
+import styled, { css, keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import type { FocusArea } from '../../config/careers';
+
+const shimmer = keyframes`
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+`;
+
+export const Page = styled.div`
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: ${({ theme }) => theme.colors.bg};
+`;
+
+export const Main = styled.main`
+  position: relative;
+  z-index: 1;
+`;
+
+export const CareersHeader = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: ${({ theme }) => theme.headerHeight};
+  display: flex;
+  align-items: center;
+  background: rgba(8, 6, 4, 0.88);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+`;
+
+export const CareersHeaderInner = styled.div`
+  width: 100%;
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+`;
+
+export const BackLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: ${({ theme }) => theme.colors.muted};
+  transition: color 0.25s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gold};
+  }
+`;
+
+export const CareersHeaderMark = styled.span`
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: 1rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+`;
+
+export const CareersHeaderEnd = styled.div`
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
+export const CareersHeaderAction = styled(Link)`
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+  transition: opacity 0.25s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+`;
+
+export const Mesh = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(212, 175, 55, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 30%, rgba(212, 175, 55, 0.08), transparent 50%),
+    linear-gradient(165deg, #0a0806 0%, ${({ theme }) => theme.colors.bg} 45%, #050505 100%);
+`;
+
+export const GridOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, black 0%, transparent 70%);
+`;
+
+export const Hero = styled.section`
+  position: relative;
+  z-index: 1;
+  padding: calc(${({ theme }) => theme.headerHeight} + 4rem) 1.5rem 4rem;
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin: 0 auto;
+`;
+
+export const HeroEyebrow = styled.span`
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: ${({ theme }) => theme.radius.pill};
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(212, 175, 55, 0.08);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+  font-weight: 600;
+`;
+
+export const HeroTitle = styled.h1`
+  margin: 0 0 1.25rem;
+  max-width: 30ch;
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-weight: 400;
+  font-size: clamp(2.75rem, 8vw, 4.5rem);
+  line-height: 1.05;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const HeroAccent = styled.span`
+  display: inline;
+
+  background: linear-gradient(
+    105deg,
+    ${({ theme }) => theme.colors.gold} 0%,
+    ${({ theme }) => theme.colors.goldBright} 45%,
+    ${({ theme }) => theme.colors.gold} 90%
+  );
+
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ${shimmer} 8s linear infinite;
+`;
+export const HeroLead = styled.p`
+  margin: 0;
+  max-width: 36rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: ${({ theme }) => theme.colors.muted};
+`;
+
+export const PillRow = styled(motion.div)`
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+`;
+
+const pillAreaStyles: Record<FocusArea, ReturnType<typeof css>> = {
+  Media: css`
+    color: #e8c547;
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.12);
+
+    &::before {
+      background: #d4af37;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.55);
+    }
+  `,
+  Music: css`
+     color: #e8c547;
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.12);
+
+    &::before {
+      background: #d4af37;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.55);
+    }
+  `,
+  Community: css`
+     color: #e8c547;
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.12);
+
+    &::before {
+      background: #d4af37;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.55);
+    }
+  `,
+  Partnerships: css`
+   color: #e8c547;
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.12);
+
+    &::before {
+      background: #d4af37;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.55);
+    }
+  `,
+  Operations: css`
+    color: #e8c547;
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.12);
+
+    &::before {
+      background: #d4af37;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.55);
+    }
+  `,
+};
+
+export const Pill = styled(motion.span)<{ $area: FocusArea }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: ${({ theme }) => theme.radius.pill};
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  ${({ $area }) => pillAreaStyles[$area]}
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+`;
+
+export const RolesSection = styled.section`
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.5rem 5rem;
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin: 0 auto;
+`;
+
+export const RolesHeading = styled.h2`
+  margin: 0 0 2rem;
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const RoleList = styled(motion.ol)`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+`;
+
+export const RoleItem = styled(motion.li)`
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.25rem 1.5rem;
+  align-items: start;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 639px) {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+
+    a {
+      grid-column: 1 / -1;
+    }
+  }
+`;
+
+export const RoleIndex = styled.span`
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: 2rem;
+  line-height: 1;
+  color: rgba(212, 175, 55, 0.35);
+  font-weight: 500;
+  min-width: 2.5rem;
+`;
+
+export const RoleBody = styled.div`
+  min-width: 0;
+`;
+
+export const RoleMeta = styled.span`
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+  font-weight: 600;
+`;
+
+export const RoleTitle = styled.h3`
+  margin: 0 0 0.5rem;
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const RoleSummary = styled.p`
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: ${({ theme }) => theme.colors.muted};
+`;
+
+export const CtaBand = styled.section`
+  position: relative;
+  z-index: 1;
+  margin: 0 1.5rem 4rem;
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(2rem, 5vw, 3rem);
+  border-radius: ${({ theme }) => theme.radius.lg};
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.12) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(212, 175, 55, 0.06) 100%
+  );
+  text-align: center;
+`;
+
+export const CtaTitle = styled.h2`
+  margin: 0 0 0.75rem;
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const CtaText = styled.p`
+  margin: 0 auto 1.5rem;
+  max-width: 32rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: ${({ theme }) => theme.colors.muted};
+`;
+
+export const CtaRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  justify-content: center;
+`;
+
+export const PageFooter = styled.footer`
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.5rem 3rem;
+  text-align: center;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
+export const PageFooterLink = styled(Link)`
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  color: ${({ theme }) => theme.colors.muted};
+  transition: color 0.25s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gold};
+  }
+`;

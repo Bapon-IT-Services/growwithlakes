@@ -2,8 +2,10 @@ import { Button } from 'antd';
 import { links } from '../../config/links';
 import { fadeIn } from '../../motion/variants';
 import * as S from './index.style';
+import { useNavigate } from 'react-router-dom';
 
 export default function Opportunities() {
+  const navigate = useNavigate();
   return (
     <S.Section id="opportunities">
       <S.Panel
@@ -22,7 +24,7 @@ export default function Opportunities() {
           </S.Text>
         </S.Copy>
         <S.Actions>
-          <Button type="primary" size="large" block href={links.viewOpportunities}>
+          <Button type="primary" size="large" block onClick={() =>navigate('/careers')}>
             View Opportunities
           </Button>
           <Button size="large" block href={links.postOpportunity}>

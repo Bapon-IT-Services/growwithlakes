@@ -1,7 +1,7 @@
 import { PauseCircleOutlined, PlayCircleOutlined, TeamOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import { motion } from 'framer-motion';
-import { useDrLakesAudio } from '../../context/DrLakesAudioContext';
+import { useDrLakesAudio, useDrLakesHeroAudio } from '../../context/DrLakesAudioContext';
 import { links } from '../../config/links';
 import { staggerHero, fadeUp } from '../../motion/variants';
 import * as S from './index.style';
@@ -11,6 +11,7 @@ const waveHeights = [20, 32, 48, 26, 58, 36, 52, 24, 56, 34, 44, 22, 50, 30, 40]
 const chips = ['Media & hosting', 'A&R & development', 'Coaching', 'Partnerships'] as const;
 
 export default function Hero() {
+  useDrLakesHeroAudio();
   const { isPlaying, togglePlayback } = useDrLakesAudio();
 
   return (

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Header = styled.header`
   position: fixed;
@@ -27,7 +28,7 @@ export const Inner = styled.div`
   gap: 1rem;
 `;
 
-export const Brand = styled.a`
+export const Brand = styled(Link)`
   font-family: ${({ theme }) => theme.fonts.display};
   font-size: 1.125rem;
   font-weight: 500;
@@ -90,10 +91,9 @@ export const NavLink = styled.a`
   }
 `;
 
-export const NavCompact = styled.nav`
+export const NavMobile = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 
   @media (min-width: 768px) {
     display: none;
