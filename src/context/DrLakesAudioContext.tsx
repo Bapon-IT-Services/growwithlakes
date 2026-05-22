@@ -22,372 +22,235 @@ type DrLakesAudioContextValue = {
   registerHero: (element: HTMLElement) => () => void;
 };
 
-const DrLakesAudioContext =
-  createContext<DrLakesAudioContextValue | null>(null);
+const DrLakesAudioContext = createContext<DrLakesAudioContextValue | null>(null);
 
-function isHeroIntersecting(
-  element: HTMLElement
-) {
-  const rect =
-    element.getBoundingClientRect();
-
-  if (rect.height <= 0)
-    return false;
-
-  const viewportHeight =
-    window.innerHeight;
-
-  const visibleTop =
-    Math.max(
-      rect.top,
-      HEADER_OFFSET_PX
-    );
-
-  const visibleBottom =
-    Math.min(
-      rect.bottom,
-      viewportHeight
-    );
-
-  const visibleHeight =
-    Math.max(
-      0,
-      visibleBottom -
-        visibleTop
-    );
-
-  return (
-    visibleHeight /
-      rect.height >=
-    HERO_VISIBLE_RATIO
-  );
+function canResumePlayback(audio: HTMLAudioElement) {
+  if (audio.ended) return false;
+  if (!Number.isFinite(audio.duration) || audio.duration <= 0) {
+    return audio.paused;
+  }
+  return audio.currentTime < audio.duration - 0.25;
 }
 
-export function DrLakesAudioProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const audioRef =
-    useRef<HTMLAudioElement | null>(
-      null
-    );
+function isAutoplayPolicyError(error: unknown) {
+  return error instanceof DOMException && error.name === 'NotAllowedError';
+}
 
-  const heroInViewRef =
-    useRef(false);
+function isAudioReady(audio: HTMLAudioElement) {
+  return audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA;
+}
 
-  const userPausedRef =
-    useRef(false);
+/** Mirrors IntersectionObserver threshold + header rootMargin */
+function isHeroIntersecting(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  if (rect.height <= 0) return false;
 
-  const [isPlaying,
-    setIsPlaying] =
-    useState(false);
+  const viewportHeight = window.innerHeight;
+  const visibleTop = Math.max(rect.top, HEADER_OFFSET_PX);
+  const visibleBottom = Math.min(rect.bottom, viewportHeight);
+  const visibleHeight = Math.max(0, visibleBottom - visibleTop);
 
-  const syncPlayingState =
-    useCallback(() => {
-      const audio =
-        audioRef.current;
+  return visibleHeight / rect.height >= HERO_VISIBLE_RATIO;
+}
 
-      setIsPlaying(
-        !!audio &&
-          !audio.paused &&
-          !audio.ended
-      );
-    }, []);
+export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const heroInViewRef = useRef(false);
+  const userPausedRef = useRef(false);
+  const pendingPlayRef = useRef(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const playAudio =
-    useCallback(async () => {
-      const audio =
-        audioRef.current;
+  const syncPlayingState = useCallback(() => {
+    const audio = audioRef.current;
+    setIsPlaying(Boolean(audio && !audio.paused && !audio.ended));
+  }, []);
 
-      if (
-        !audio ||
-        !heroInViewRef.current ||
-        userPausedRef.current
-      )
-        return;
+  const playAudio = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio || userPausedRef.current || !heroInViewRef.current) {
+      pendingPlayRef.current = false;
+      return;
+    }
 
-      try {
-        await audio.play();
-      } catch {
-        // browser blocked autoplay
+    if (!isAudioReady(audio)) {
+      pendingPlayRef.current = true;
+      return;
+    }
+
+    pendingPlayRef.current = false;
+
+    if (audio.ended) {
+      audio.currentTime = 0;
+    }
+
+    if (!canResumePlayback(audio)) return;
+
+    try {
+      await audio.play();
+    } catch (error) {
+      if (!isAutoplayPolicyError(error)) {
+        console.warn('Dr Lakes audio playback failed:', error);
       }
-
+    } finally {
       syncPlayingState();
-    }, [syncPlayingState]);
-
-  const pauseAudio =
-    useCallback(() => {
-      const audio =
-        audioRef.current;
-
-      if (!audio)
-        return;
-
-      audio.pause();
-
-      syncPlayingState();
-    }, [syncPlayingState]);
-
-  useEffect(() => {
-    const audio =
-      new Audio(
-        DRLAKES_AUDIO_URL
-      );
-
-    audio.preload =
-      'auto';
-
-    audio.load();
-
-    audioRef.current =
-      audio;
-
-    audio.addEventListener(
-      'play',
-      syncPlayingState
-    );
-
-    audio.addEventListener(
-      'pause',
-      syncPlayingState
-    );
-
-    audio.addEventListener(
-      'ended',
-      syncPlayingState
-    );
-
-    return () => {
-      audio.pause();
-
-      audio.removeEventListener(
-        'play',
-        syncPlayingState
-      );
-
-      audio.removeEventListener(
-        'pause',
-        syncPlayingState
-      );
-
-      audio.removeEventListener(
-        'ended',
-        syncPlayingState
-      );
-
-      audio.src = '';
-    };
+    }
   }, [syncPlayingState]);
 
-  const registerHero =
-    useCallback(
-      (
-        element: HTMLElement
-      ) => {
-        const syncHero =
-          () => {
-            const visible =
-              isHeroIntersecting(
-                element
-              );
+  const pauseAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || audio.paused) return;
+    pendingPlayRef.current = false;
+    audio.pause();
+    syncPlayingState();
+  }, [syncPlayingState]);
 
-            heroInViewRef.current =
-              visible;
+  const setHeroInView = useCallback(
+    (inView: boolean) => {
+      heroInViewRef.current = inView;
+      if (inView) {
+        void playAudio();
+      } else {
+        pauseAudio();
+      }
+    },
+    [playAudio, pauseAudio]
+  );
 
-            if (
-              visible
-            ) {
-              playAudio();
-            } else {
-              pauseAudio();
-            }
-          };
+  useEffect(() => {
+    const audio = new Audio(DRLAKES_AUDIO_URL);
+    audio.preload = 'auto';
+    audioRef.current = audio;
 
-        const observer =
-          new IntersectionObserver(
-            (
-              [entry]
-            ) => {
-              heroInViewRef.current =
-                entry.isIntersecting;
+    const onMediaReady = () => {
+      if (pendingPlayRef.current || (heroInViewRef.current && !userPausedRef.current)) {
+        void playAudio();
+      }
+    };
 
-              if (
-                entry.isIntersecting
-              ) {
-                playAudio();
-              } else {
-                pauseAudio();
-              }
-            },
-            {
-              threshold:
-                HERO_VISIBLE_RATIO,
-            }
-          );
+    audio.addEventListener('play', syncPlayingState);
+    audio.addEventListener('pause', syncPlayingState);
+    audio.addEventListener('ended', syncPlayingState);
+    audio.addEventListener('canplay', onMediaReady);
+    audio.addEventListener('canplaythrough', onMediaReady);
 
-        observer.observe(
-          element
-        );
+    if (isAudioReady(audio)) {
+      onMediaReady();
+    } else {
+      audio.load();
+    }
 
-        requestAnimationFrame(
-          syncHero
-        );
+    return () => {
+      audio.removeEventListener('play', syncPlayingState);
+      audio.removeEventListener('pause', syncPlayingState);
+      audio.removeEventListener('ended', syncPlayingState);
+      audio.removeEventListener('canplay', onMediaReady);
+      audio.removeEventListener('canplaythrough', onMediaReady);
+      audio.pause();
+      audio.src = '';
+      audioRef.current = null;
+      heroInViewRef.current = false;
+      pendingPlayRef.current = false;
+    };
+  }, [playAudio, syncPlayingState]);
 
-        window.addEventListener(
-          'load',
-          syncHero
-        );
+  const registerHero = useCallback(
+    (element: HTMLElement) => {
+      const syncFromLayout = () => {
+        setHeroInView(isHeroIntersecting(element));
+      };
 
-        // unlock after first interaction
-        const unlock =
-          async () => {
-            const audio =
-              audioRef.current;
-
-            if (
-              !audio
-            )
-              return;
-
-            try {
-              await audio.play();
-
-              audio.pause();
-
-              if (
-                heroInViewRef.current
-              ) {
-                await playAudio();
-              }
-            } catch {}
-          };
-
-        document.addEventListener(
-          'click',
-          unlock,
-          { once: true }
-        );
-
-        document.addEventListener(
-          'touchstart',
-          unlock,
-          { once: true }
-        );
-
-        return () => {
-          observer.disconnect();
-
-          window.removeEventListener(
-            'load',
-            syncHero
-          );
-
-          document.removeEventListener(
-            'click',
-            unlock
-          );
-
-          document.removeEventListener(
-            'touchstart',
-            unlock
-          );
-
-          pauseAudio();
-        };
-      },
-      [
-        playAudio,
-        pauseAudio,
-      ]
-    );
-
-  const togglePlayback =
-    useCallback(
-      async () => {
-        const audio =
-          audioRef.current;
-
-        if (!audio)
-          return;
-
-        if (
-          !audio.paused
-        ) {
-          userPausedRef.current =
-            true;
-
-          pauseAudio();
-
-          return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry) return;
+          setHeroInView(entry.isIntersecting);
+        },
+        {
+          threshold: [0, HERO_VISIBLE_RATIO],
+          rootMargin: `-${HEADER_OFFSET_PX}px 0px 0px 0px`,
         }
+      );
 
-        userPausedRef.current =
-          false;
+      observer.observe(element);
 
-        await playAudio();
-      },
-      [
-        playAudio,
-        pauseAudio,
-      ]
-    );
+      const scheduleLayoutSync = () => {
+        requestAnimationFrame(() => {
+          syncFromLayout();
+          requestAnimationFrame(syncFromLayout);
+        });
+      };
 
-  const value =
-    useMemo(
-      () => ({
-        isPlaying,
-        togglePlayback,
-        registerHero,
-      }),
-      [
-        isPlaying,
-        togglePlayback,
-        registerHero,
-      ]
-    );
+      scheduleLayoutSync();
+
+      if (document.readyState === 'complete') {
+        scheduleLayoutSync();
+      } else {
+        window.addEventListener('load', syncFromLayout, { once: true });
+      }
+
+      if ('fonts' in document) {
+        void document.fonts.ready.then(syncFromLayout);
+      }
+
+      const unlockFromGesture = () => {
+        if (userPausedRef.current) return;
+        syncFromLayout();
+        void playAudio();
+      };
+
+      document.addEventListener('pointerdown', unlockFromGesture, { passive: true });
+      document.addEventListener('keydown', unlockFromGesture);
+
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('load', syncFromLayout);
+        document.removeEventListener('pointerdown', unlockFromGesture);
+        document.removeEventListener('keydown', unlockFromGesture);
+        heroInViewRef.current = false;
+        pauseAudio();
+      };
+    },
+    [setHeroInView, pauseAudio, playAudio]
+  );
+
+  const togglePlayback = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused && !audio.ended) {
+      userPausedRef.current = true;
+      pauseAudio();
+      return;
+    }
+
+    userPausedRef.current = false;
+    heroInViewRef.current = true;
+    await playAudio();
+  }, [playAudio, pauseAudio]);
+
+  const value = useMemo(
+    () => ({ isPlaying, togglePlayback, registerHero }),
+    [isPlaying, togglePlayback, registerHero]
+  );
 
   return (
-    <DrLakesAudioContext.Provider
-      value={value}
-    >
-      {children}
-    </DrLakesAudioContext.Provider>
+    <DrLakesAudioContext.Provider value={value}>{children}</DrLakesAudioContext.Provider>
   );
 }
 
 export function useDrLakesHeroAudio() {
-  const {
-    registerHero,
-  } =
-    useDrLakesAudio();
+  const { registerHero } = useDrLakesAudio();
 
   useEffect(() => {
-    const hero =
-      document.getElementById(
-        HERO_SECTION_ID
-      );
-
-    if (!hero)
-      return;
-
-    return registerHero(
-      hero
-    );
+    const hero = document.getElementById(HERO_SECTION_ID);
+    if (!hero) return;
+    return registerHero(hero);
   }, [registerHero]);
 }
 
 export function useDrLakesAudio() {
-  const context =
-    useContext(
-      DrLakesAudioContext
-    );
-
+  const context = useContext(DrLakesAudioContext);
   if (!context) {
-    throw new Error(
-      'useDrLakesAudio must be used within DrLakesAudioProvider'
-    );
+    throw new Error('useDrLakesAudio must be used within DrLakesAudioProvider');
   }
-
   return context;
 }
