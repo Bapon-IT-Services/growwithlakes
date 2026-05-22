@@ -8,8 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-
-const DRLAKES_AUDIO_URL = '/drlakes_audio.mpeg';
+import drlakesAudioUrl from '../assets/drlakes_audio.mpeg?url';
 
 export const HERO_SECTION_ID = 'top';
 
@@ -27,7 +26,7 @@ const DrLakesAudioContext = createContext<DrLakesAudioContextValue | null>(null)
 function canResumePlayback(audio: HTMLAudioElement) {
   if (audio.ended) return false;
   if (!Number.isFinite(audio.duration) || audio.duration <= 0) {
-    return audio.paused;
+    return true;
   }
   return audio.currentTime < audio.duration - 0.25;
 }
@@ -55,7 +54,7 @@ function isHeroIntersecting(element: HTMLElement) {
 
 export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const heroInViewRef = useRef(false);
+  const heroInViewRef = useRef(true);
   const userPausedRef = useRef(false);
   const pendingPlayRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -117,7 +116,7 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    const audio = new Audio(DRLAKES_AUDIO_URL);
+    const audio = new Audio(drlakesAudioUrl);
     audio.preload = 'auto';
     audioRef.current = audio;
 
@@ -127,17 +126,28 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
       }
     };
 
+    const onMediaError = () => {
+      const mediaError = audio.error;
+      console.warn('Dr Lakes audio failed to load:', mediaError?.message ?? 'unknown', drlakesAudioUrl);
+    };
+
     audio.addEventListener('play', syncPlayingState);
     audio.addEventListener('pause', syncPlayingState);
     audio.addEventListener('ended', syncPlayingState);
     audio.addEventListener('canplay', onMediaReady);
     audio.addEventListener('canplaythrough', onMediaReady);
+    audio.addEventListener('error', onMediaError);
 
-    if (isAudioReady(audio)) {
-      onMediaReady();
-    } else {
-      audio.load();
-    }
+    audio.load();
+
+    const unlockFromGesture = () => {
+      if (userPausedRef.current) return;
+      void playAudio();
+    };
+
+    document.addEventListener('pointerdown', unlockFromGesture, { passive: true });
+    document.addEventListener('keydown', unlockFromGesture);
+    document.addEventListener('touchstart', unlockFromGesture, { passive: true });
 
     return () => {
       audio.removeEventListener('play', syncPlayingState);
@@ -145,10 +155,14 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
       audio.removeEventListener('ended', syncPlayingState);
       audio.removeEventListener('canplay', onMediaReady);
       audio.removeEventListener('canplaythrough', onMediaReady);
+      audio.removeEventListener('error', onMediaError);
+      document.removeEventListener('pointerdown', unlockFromGesture);
+      document.removeEventListener('keydown', unlockFromGesture);
+      document.removeEventListener('touchstart', unlockFromGesture);
       audio.pause();
       audio.src = '';
       audioRef.current = null;
-      heroInViewRef.current = false;
+      heroInViewRef.current = true;
       pendingPlayRef.current = false;
     };
   }, [playAudio, syncPlayingState]);
@@ -184,32 +198,21 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
       if (document.readyState === 'complete') {
         scheduleLayoutSync();
       } else {
-        window.addEventListener('load', syncFromLayout, { once: true });
+        window.addEventListener('load', scheduleLayoutSync, { once: true });
       }
 
       if ('fonts' in document) {
-        void document.fonts.ready.then(syncFromLayout);
+        void document.fonts.ready.then(scheduleLayoutSync);
       }
-
-      const unlockFromGesture = () => {
-        if (userPausedRef.current) return;
-        syncFromLayout();
-        void playAudio();
-      };
-
-      document.addEventListener('pointerdown', unlockFromGesture, { passive: true });
-      document.addEventListener('keydown', unlockFromGesture);
 
       return () => {
         observer.disconnect();
-        window.removeEventListener('load', syncFromLayout);
-        document.removeEventListener('pointerdown', unlockFromGesture);
-        document.removeEventListener('keydown', unlockFromGesture);
-        heroInViewRef.current = false;
+        window.removeEventListener('load', scheduleLayoutSync);
+        heroInViewRef.current = true;
         pauseAudio();
       };
     },
-    [setHeroInView, pauseAudio, playAudio]
+    [setHeroInView, pauseAudio]
   );
 
   const togglePlayback = useCallback(async () => {
