@@ -17,9 +17,16 @@ export default function Main() {
   useScrollToHash();
 
   useLayoutEffect(() => {
+    const previous = history.scrollRestoration;
+    history.scrollRestoration = 'manual';
+
     if (!hash) {
       window.scrollTo(0, 0);
     }
+
+    return () => {
+      history.scrollRestoration = previous;
+    };
   }, [hash]);
 
   return (

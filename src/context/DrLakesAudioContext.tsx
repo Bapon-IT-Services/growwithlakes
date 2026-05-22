@@ -31,6 +31,10 @@ function canResumePlayback(audio: HTMLAudioElement) {
   return audio.currentTime < audio.duration - 0.25;
 }
 
+function isAutoplayPolicyError(error: unknown) {
+  return error instanceof DOMException && error.name === 'NotAllowedError';
+}
+
 /** Mirrors IntersectionObserver threshold + header rootMargin */
 function isHeroIntersecting(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
@@ -69,8 +73,10 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
     try {
       await audio.play();
       autoplayBlockedRef.current = false;
-    } catch {
-      autoplayBlockedRef.current = true;
+    } catch (error) {
+      if (isAutoplayPolicyError(error)) {
+        autoplayBlockedRef.current = true;
+      }
     }
   }, []);
 
@@ -121,6 +127,10 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('canplay', onCanPlay);
 
+    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      onCanPlay();
+    }
+
     return () => {
       audio.removeEventListener('play', onPlay);
       audio.removeEventListener('pause', onPause);
@@ -153,29 +163,63 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
 
       observer.observe(element);
 
-      requestAnimationFrame(() => {
-        syncFromLayout();
-        requestAnimationFrame(syncFromLayout);
-      });
+      const scheduleLayoutSync = () => {
+        requestAnimationFrame(() => {
+          syncFromLayout();
+          requestAnimationFrame(syncFromLayout);
+        });
+      };
 
-      window.addEventListener('load', syncFromLayout, { once: true });
+      scheduleLayoutSync();
+
+      if (document.readyState === 'complete') {
+        scheduleLayoutSync();
+      } else {
+        window.addEventListener('load', syncFromLayout, { once: true });
+      }
+
+      if ('fonts' in document) {
+        void document.fonts.ready.then(syncFromLayout);
+      }
 
       const unlockAutoplay = () => {
-        if (!autoplayBlockedRef.current || userPausedRef.current) return;
-        void playAudio();
+        if (userPausedRef.current) return;
+        syncFromLayout();
+        if (!autoplayBlockedRef.current) return;
+
+        const audio = audioRef.current;
+        if (!audio || !heroInViewRef.current) return;
+
+        if (audio.ended) audio.currentTime = 0;
+        if (!canResumePlayback(audio)) return;
+
+        audio
+          .play()
+          .then(() => {
+            autoplayBlockedRef.current = false;
+            syncPlayingState();
+          })
+          .catch((error) => {
+            if (isAutoplayPolicyError(error)) {
+              autoplayBlockedRef.current = true;
+            }
+            syncPlayingState();
+          });
       };
 
       document.addEventListener('pointerdown', unlockAutoplay, { passive: true });
+      document.addEventListener('keydown', unlockAutoplay);
 
       return () => {
         observer.disconnect();
         window.removeEventListener('load', syncFromLayout);
         document.removeEventListener('pointerdown', unlockAutoplay);
+        document.removeEventListener('keydown', unlockAutoplay);
         heroInViewRef.current = false;
         pauseForHeroLeave();
       };
     },
-    [setHeroInView, playAudio, pauseForHeroLeave]
+    [setHeroInView, playAudio, pauseForHeroLeave, syncPlayingState]
   );
 
   const togglePlayback = useCallback(() => {
@@ -196,8 +240,10 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
 
     if (!heroInViewRef.current) return;
 
-    void audio.play().catch(() => {
-      autoplayBlockedRef.current = true;
+    void audio.play().catch((error) => {
+      if (isAutoplayPolicyError(error)) {
+        autoplayBlockedRef.current = true;
+      }
       syncPlayingState();
     });
   }, [pauseByUser, syncPlayingState]);
