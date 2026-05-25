@@ -27,9 +27,9 @@ export default function Opportunities() {
           <Button type="primary" size="large" block onClick={() =>navigate('/careers')}>
             View Opportunities
           </Button>
-          <Button size="large" block href={links.postOpportunity}>
+          {/* <Button size="large" block href={links.postOpportunity}>
             Post an Opportunity
-          </Button>
+          </Button> */}
         </S.Actions>
       </S.Panel>
     </S.Section>

@@ -1,3 +1,5 @@
-import { bootstrapDrLakesAutoplay } from './drlakesAudio';
+import { bootstrapDrLakesAutoplay, isCareersRoute } from './drlakesAudio';
 
-bootstrapDrLakesAutoplay();
+if (!isCareersRoute()) {
+  bootstrapDrLakesAutoplay();
+}

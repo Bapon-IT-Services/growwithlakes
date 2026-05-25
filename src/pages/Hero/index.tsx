@@ -2,7 +2,7 @@ import { PauseCircleOutlined, PlayCircleOutlined, TeamOutlined } from '@ant-desi
 import { Button, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { useDrLakesAudio, useDrLakesHeroAudio } from '../../context/DrLakesAudioContext';
-import { links } from '../../config/links';
+import { useNavigate } from 'react-router-dom';
 import { staggerHero, fadeUp } from '../../motion/variants';
 import * as S from './index.style';
 
@@ -12,6 +12,7 @@ const chips = ['Media & hosting', 'A&R & development', 'Coaching', 'Partnerships
 
 export default function Hero() {
   useDrLakesHeroAudio();
+  const navigate = useNavigate();
   const { isPlaying, togglePlayback } = useDrLakesAudio();
 
   return (
@@ -50,7 +51,7 @@ export default function Hero() {
                   >
                     {isPlaying ? 'Pause' : 'Listen Now'}
                   </Button>
-                  <Button size="large" href={links.workWithMe} icon={<TeamOutlined />}>
+                  <Button size="large" onClick={() => navigate('/careers')} icon={<TeamOutlined />}>
                     Work With Me
                   </Button>
                 </Space>

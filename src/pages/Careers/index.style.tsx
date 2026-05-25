@@ -399,8 +399,9 @@ export const ExpandButton = styled.button`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
+  box-sizing: border-box;
   padding: 0;
   border: 1px solid rgba(212, 175, 55, 0.5);
   border-radius: ${({ theme }) => theme.radius.sm};

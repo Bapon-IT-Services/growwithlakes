@@ -29,7 +29,7 @@ export default function CareersPage() {
               ready-to-send message so we can pick up the conversation quickly.
             </S.HeroLead>
           </Reveal>
-          <S.PillRow
+          {/* <S.PillRow
             variants={staggerFast}
             initial="hidden"
             animate="show"
@@ -40,7 +40,7 @@ export default function CareersPage() {
                 {area}
               </S.Pill>
             ))}
-          </S.PillRow>
+          </S.PillRow> */}
         </S.Hero>
 
         <S.RolesSection aria-labelledby="open-roles-heading">
@@ -69,9 +69,6 @@ export default function CareersPage() {
             <S.CtaRow>
               <Button size="large" type="primary" href={links.generalCareerApply}>
                 General career inquiry
-              </Button>
-              <Button size="large" href={links.workWithMe}>
-                Work With Me
               </Button>
             </S.CtaRow>
           </S.CtaBand>

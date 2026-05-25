@@ -8,10 +8,13 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   attemptAutoplay,
   bootstrapDrLakesAutoplay,
   getDrLakesAudio,
+  isCareersRoute,
+  setDrLakesAutoplaySuppressed,
   stopAutoplayRetries,
 } from '../audio/drlakesAudio';
 
@@ -63,13 +66,18 @@ function isHeroIntersecting(element: HTMLElement) {
 }
 
 export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation();
+  const onCareers = isCareersRoute(pathname);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const heroInViewRef = useRef(true);
   const heroHasBeenVisibleRef = useRef(false);
   const userPausedRef = useRef(false);
   const pendingPlayRef = useRef(false);
+  const careersRouteRef = useRef(onCareers);
   const mountTimeRef = useRef(Date.now());
   const [isPlaying, setIsPlaying] = useState(false);
+
+  careersRouteRef.current = onCareers;
 
   const syncPlayingState = useCallback(() => {
     const audio = audioRef.current;
@@ -77,6 +85,7 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const shouldAllowPlayback = useCallback(() => {
+    if (careersRouteRef.current) return false;
     if (heroInViewRef.current) return true;
     if (isAtPageTop() && isWithinAutoplayGrace(mountTimeRef.current)) return true;
     return false;
@@ -133,8 +142,21 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    bootstrapDrLakesAutoplay();
+    setDrLakesAutoplaySuppressed(onCareers);
 
+    if (onCareers) {
+      heroInViewRef.current = false;
+      pauseAudio();
+      return;
+    }
+
+    bootstrapDrLakesAutoplay();
+    if (!userPausedRef.current) {
+      void playAudio();
+    }
+  }, [onCareers, pauseAudio, playAudio]);
+
+  useEffect(() => {
     const audio = getDrLakesAudio();
     audioRef.current = audio;
 
@@ -160,10 +182,6 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
     audio.addEventListener('canplaythrough', onMediaReady);
     audio.addEventListener('error', onMediaError);
 
-    if (!userPausedRef.current) {
-      void playAudio();
-    }
-
     return () => {
       audio.removeEventListener('play', syncPlayingState);
       audio.removeEventListener('pause', syncPlayingState);
@@ -172,6 +190,7 @@ export function DrLakesAudioProvider({ children }: { children: ReactNode }) {
       audio.removeEventListener('canplaythrough', onMediaReady);
       audio.removeEventListener('error', onMediaError);
       stopAutoplayRetries();
+      setDrLakesAutoplaySuppressed(false);
       audioRef.current = null;
       heroInViewRef.current = true;
       pendingPlayRef.current = false;

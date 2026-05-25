@@ -1,13 +1,30 @@
 import drlakesAudioUrl from '../assets/drlakes_audio.mp3?url';
 
 export const AUDIO_BOOTSTRAP_ID = 'drlakes-audio-bootstrap';
+export const CAREERS_ROUTE = '/careers';
 
 const AUTOPLAY_RETRY_MS = [0, 50, 120, 250, 500, 1000, 2000, 3500] as const;
 
 let audioInstance: HTMLAudioElement | null = null;
 let bootstrapStarted = false;
 let retriesScheduled = false;
+let autoplaySuppressed = false;
 const retryTimers = new Set<number>();
+
+export function isCareersRoute(pathname = window.location.pathname) {
+  return pathname === CAREERS_ROUTE || pathname === `${CAREERS_ROUTE}/`;
+}
+
+export function setDrLakesAutoplaySuppressed(suppressed: boolean) {
+  autoplaySuppressed = suppressed;
+  if (!suppressed) return;
+
+  stopAutoplayRetries();
+  const audio = audioInstance ?? getBootstrapElement();
+  if (audio && !audio.paused) {
+    audio.pause();
+  }
+}
 
 function isAutoplayPolicyError(error: unknown) {
   return error instanceof DOMException && error.name === 'NotAllowedError';
@@ -49,6 +66,8 @@ export function getDrLakesAudio(): HTMLAudioElement {
 }
 
 export async function attemptAutoplay(audio: HTMLAudioElement): Promise<boolean> {
+  if (autoplaySuppressed) return false;
+
   if (audio.ended) {
     audio.currentTime = 0;
   }
@@ -88,7 +107,9 @@ function scheduleAutoplayRetries(audio: HTMLAudioElement) {
   for (const delay of AUTOPLAY_RETRY_MS) {
     const timer = window.setTimeout(() => {
       retryTimers.delete(timer);
-      void attemptAutoplay(audio);
+      if (!autoplaySuppressed) {
+        void attemptAutoplay(audio);
+      }
     }, delay);
     retryTimers.add(timer);
   }
@@ -109,6 +130,7 @@ export function bootstrapDrLakesAutoplay() {
   audio.load();
 
   const tryStart = () => {
+    if (autoplaySuppressed) return;
     void attemptAutoplay(audio);
   };
 

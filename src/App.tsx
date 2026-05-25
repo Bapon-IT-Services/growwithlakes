@@ -12,7 +12,6 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <MotionConfig reducedMotion="user">
-        <DrLakesAudioProvider>
           <ConfigProvider
             theme={{
               algorithm: antdTheme.darkAlgorithm,
@@ -45,14 +44,15 @@ export default function App() {
           >
             <GlobalStyle />
             <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/careers" element={<CareersPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
+              <DrLakesAudioProvider>
+                <Routes>
+                  <Route path="/" element={<Main />} />
+                  <Route path="/careers" element={<CareersPage />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </DrLakesAudioProvider>
             </BrowserRouter>
           </ConfigProvider>
-        </DrLakesAudioProvider>
       </MotionConfig>
     </ThemeProvider>
   );

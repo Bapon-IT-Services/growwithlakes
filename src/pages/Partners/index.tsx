@@ -140,9 +140,9 @@ export default function Partners() {
             <Button type="primary" size="large" href={links.becomePartner}>
               Become a Partner
             </Button>
-            <Button size="large" href={links.registerInterest}>
+            {/* <Button size="large" href={links.registerInterest}>
               Register Interest
-            </Button>
+            </Button> */}
           </Space>
         </S.CtaRow>
       </S.Inner>
