@@ -1,5 +1,4 @@
 import { Button } from 'antd';
-import { links } from '../../config/links';
 import { fadeIn } from '../../motion/variants';
 import * as S from './index.style';
 import { useNavigate } from 'react-router-dom';

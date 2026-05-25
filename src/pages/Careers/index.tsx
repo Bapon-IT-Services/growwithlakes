@@ -1,10 +1,10 @@
 import { Button } from 'antd';
 import { useEffect } from 'react';
 import Reveal from '../../components/Reveal';
-import { careerRoles, focusAreas } from '../../config/careers';
+import { careerRoles} from '../../config/careers';
 import CareerRoleItem from './CareerRoleItem';
 import { links } from '../../config/links';
-import { popIn, staggerFast } from '../../motion/variants';
+import {staggerFast } from '../../motion/variants';
 import CareersHeader from './CareersHeader';
 import * as S from './index.style';
 
