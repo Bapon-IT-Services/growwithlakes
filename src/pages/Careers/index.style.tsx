@@ -299,26 +299,48 @@ export const RoleActions = styled.div`
   }
 `;
 
-export const RoleItem = styled(motion.li)`
+export const RoleItem = styled(motion.li)<{ $active?: boolean }>`
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 1.25rem 1.5rem;
   align-items: start;
   padding: 1.75rem 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radius.sm};
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+
+  ${({ $active }) =>
+    $active &&
+    css`
+      background: rgba(212, 175, 55, 0.04);
+      border-bottom-color: rgba(212, 175, 55, 0.28);
+    `}
 
   @media (max-width: 639px) {
     grid-template-columns: auto 1fr auto;
   }
 `;
 
-export const RoleIndex = styled.span`
+export const RoleIndex = styled.span<{ $active?: boolean }>`
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 2rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   line-height: 1;
-  color: rgba(212, 175, 55, 0.35);
-  font-weight: 500;
-  min-width: 2.5rem;
+  font-weight: 600;
+  min-width: 2.75rem;
+  color: ${({ theme }) => theme.colors.gold};
+  text-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
+  transition:
+    color 0.25s ease,
+    text-shadow 0.25s ease;
+
+  ${({ $active, theme }) =>
+    $active &&
+    css`
+      color: ${theme.colors.goldBright};
+      text-shadow: 0 0 32px rgba(232, 197, 71, 0.55);
+    `}
 `;
 
 export const RoleBody = styled.div`
@@ -349,6 +371,12 @@ export const RoleSummary = styled.p`
   font-size: 0.9375rem;
   line-height: 1.65;
   color: ${({ theme }) => theme.colors.muted};
+  cursor: default;
+`;
+
+export const RoleHoverZone = styled.div`
+  min-width: 0;
+  cursor: default;
 `;
 
 export const RoleDescription = styled(motion.div)`
@@ -370,29 +398,47 @@ export const ExpandButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;
-  height:1rem;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.5);
   border-radius: ${({ theme }) => theme.radius.sm};
-  background: rgba(212, 175, 55, 0.08);
-  color: ${({ theme }) => theme.colors.gold};
+  background: rgba(212, 175, 55, 0.14);
+  color: ${({ theme }) => theme.colors.goldBright};
+  font-size: 1.125rem;
+  line-height: 1;
   cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
   transition:
     background 0.25s ease,
     border-color 0.25s ease,
     color 0.25s ease,
-    transform 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  .anticon {
+    font-size: 1.125rem;
+  }
 
   &:hover {
-    background: rgba(212, 175, 55, 0.16);
-    border-color: rgba(212, 175, 55, 0.55);
-    color: ${({ theme }) => theme.colors.goldBright};
+    background: rgba(212, 175, 55, 0.28);
+    border-color: ${({ theme }) => theme.colors.goldBright};
+    color: ${({ theme }) => theme.colors.white};
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.goldBright};
+    outline-offset: 2px;
   }
 
   &[data-expanded='true'] {
-    background: rgba(212, 175, 55, 0.2);
-    border-color: rgba(212, 175, 55, 0.55);
+    background: rgba(212, 175, 55, 0.32);
+    border-color: ${({ theme }) => theme.colors.goldBright};
+    color: ${({ theme }) => theme.colors.white};
+    box-shadow: 0 0 24px rgba(212, 175, 55, 0.4);
   }
 `;
 

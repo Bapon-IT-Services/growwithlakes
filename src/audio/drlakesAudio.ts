@@ -1,4 +1,4 @@
-import drlakesAudioUrl from '../assets/drlakes_audio.mpeg?url';
+import drlakesAudioUrl from '../assets/drlakes_audio.mp3?url';
 
 export const AUDIO_BOOTSTRAP_ID = 'drlakes-audio-bootstrap';
 

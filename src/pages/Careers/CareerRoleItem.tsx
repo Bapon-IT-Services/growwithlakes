@@ -12,49 +12,72 @@ type CareerRoleItemProps = {
 };
 
 export default function CareerRoleItem({ role, index }: CareerRoleItemProps) {
-  const [expanded, setExpanded] = useState(false);
+  const [pinned, setPinned] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const detailsId = useId();
+  const isOpen = pinned || hovered;
+
+  const openDetails = () => setHovered(true);
+  const closeDetails = () => setHovered(false);
+
+  const togglePinned = () => {
+    setPinned((open) => !open);
+  };
 
   return (
     <S.RoleItem
       variants={popIn}
+      $active={isOpen}
+      onMouseEnter={openDetails}
+      onMouseLeave={closeDetails}
+      onFocusCapture={openDetails}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          closeDetails();
+        }
+      }}
       whileHover={{
         x: 4,
         transition: { type: 'spring', stiffness: 400, damping: 28 },
       }}
     >
-      <S.RoleIndex aria-hidden>{String(index + 1).padStart(2, '0')}</S.RoleIndex>
-      <S.RoleBody>
-        <S.RoleMeta>{role.type}</S.RoleMeta>
-        <S.RoleTitle>{role.title}</S.RoleTitle>
-        <S.RoleSummary>{role.summary}</S.RoleSummary>
-        <AnimatePresence initial={false}>
-          {expanded && (
-            <S.RoleDescription
-              id={detailsId}
-              key="description"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <S.RoleDescriptionInner>{role.description}</S.RoleDescriptionInner>
-            </S.RoleDescription>
-          )}
-        </AnimatePresence>
-      </S.RoleBody>
+      <S.RoleIndex $active={isOpen} aria-hidden>
+        {String(index + 1).padStart(2, '0')}
+      </S.RoleIndex>
+      <S.RoleHoverZone>
+        <S.RoleBody>
+          <S.RoleMeta>{role.type}</S.RoleMeta>
+          <S.RoleTitle>{role.title}</S.RoleTitle>
+          <S.RoleSummary>{role.summary}</S.RoleSummary>
+          <AnimatePresence initial={false}>
+            {isOpen && (
+              <S.RoleDescription
+                id={detailsId}
+                key="description"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <S.RoleDescriptionInner>{role.description}</S.RoleDescriptionInner>
+              </S.RoleDescription>
+            )}
+          </AnimatePresence>
+        </S.RoleBody>
+      </S.RoleHoverZone>
       <S.RoleActions>
         <S.ExpandButton
           type="button"
-          aria-expanded={expanded}
+          aria-expanded={isOpen}
           aria-controls={detailsId}
           aria-label={
-            expanded ? `Hide details for ${role.title}` : `Show details for ${role.title}`
+            isOpen ? `Hide details for ${role.title}` : `Show details for ${role.title}`
           }
-          data-expanded={expanded}
-          onClick={() => setExpanded((open) => !open)}
+          data-expanded={isOpen}
+          onClick={togglePinned}
+          onMouseEnter={openDetails}
         >
-          {expanded ? <MinusOutlined aria-hidden /> : <PlusOutlined aria-hidden />}
+          {isOpen ? <MinusOutlined aria-hidden /> : <PlusOutlined aria-hidden />}
         </S.ExpandButton>
         <Button type="primary" href={role.applyHref}>
           Apply
