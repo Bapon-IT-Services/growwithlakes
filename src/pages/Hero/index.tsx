@@ -14,6 +14,7 @@ export default function Hero() {
   useDrLakesHeroAudio();
   const navigate = useNavigate();
   const { isPlaying, togglePlayback } = useDrLakesAudio();
+  console.log(navigate);
 
   return (
     <S.Section id="top">
