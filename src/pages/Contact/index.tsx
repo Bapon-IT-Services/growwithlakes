@@ -19,7 +19,7 @@ export default function Contact() {
               jamaila@growwithlakes.com
             </S.Link>
             <S.Phone href={links.phone} {...linkMotion}>
-              020 3105 4511
+            +44 0208 193 1234
             </S.Phone>
           </S.Details>
           <S.Footnote>Grow With Lakes · Powered by Dr Lakes</S.Footnote>

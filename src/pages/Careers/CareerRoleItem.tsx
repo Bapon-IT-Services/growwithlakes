@@ -12,30 +12,18 @@ type CareerRoleItemProps = {
 };
 
 export default function CareerRoleItem({ role, index }: CareerRoleItemProps) {
-  const [pinned, setPinned] = useState(false);
-  const [hovered, setHovered] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const detailsId = useId();
-  const isOpen = pinned || hovered;
+  const isOpen = expanded;
 
-  const openDetails = () => setHovered(true);
-  const closeDetails = () => setHovered(false);
-
-  const togglePinned = () => {
-    setPinned((open) => !open);
+  const toggleExpanded = () => {
+    setExpanded((open) => !open);
   };
 
   return (
     <S.RoleItem
       variants={popIn}
       $active={isOpen}
-      onMouseEnter={openDetails}
-      onMouseLeave={closeDetails}
-      onFocusCapture={openDetails}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-          closeDetails();
-        }
-      }}
       whileHover={{
         x: 4,
         transition: { type: 'spring', stiffness: 400, damping: 28 },
@@ -74,8 +62,7 @@ export default function CareerRoleItem({ role, index }: CareerRoleItemProps) {
             isOpen ? `Hide details for ${role.title}` : `Show details for ${role.title}`
           }
           data-expanded={isOpen}
-          onClick={togglePinned}
-          onMouseEnter={openDetails}
+          onClick={toggleExpanded}
         >
           {isOpen ? <MinusOutlined aria-hidden /> : <PlusOutlined aria-hidden />}
         </S.ExpandButton>
