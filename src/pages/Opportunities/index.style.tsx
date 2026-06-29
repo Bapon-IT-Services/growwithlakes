@@ -1,65 +1,77 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import {
+  SectionLabel,
+  SectionRule,
+  SectionShell,
+  SectionTitle,
+} from '../../styles/sectionPrimitives';
 
-export const Section = styled.section`
-  position: relative;
-  z-index: 1;
-  padding: 6rem 1.5rem;
-  background: transparent;
-  scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-`;
+export const Section = styled(SectionShell)``;
 
-export const Panel = styled(motion.div)`
+export const Panel = styled.div`
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  padding: clamp(2rem, 4.5vw, 3rem);
-  border-radius: ${({ theme }) => theme.radius.lg};
-  background: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.border};
   display: grid;
-  gap: 2rem;
-  align-items: center;
+  gap: 2.5rem;
 
   @media (min-width: 900px) {
     grid-template-columns: 1fr auto;
-    gap: 3rem;
+    gap: 3.5rem;
+    align-items: start;
   }
 `;
 
 export const Copy = styled.div`
-  max-width: 36rem;
+  width: 100%;
+
+  @media (min-width: 900px) {
+    padding-right: 2rem;
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
+  }
 `;
 
-export const Label = styled.span`
-  display: block;
-  margin-bottom: 0.75rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.gold};
-  font-weight: 600;
-`;
+export const Rule = styled(SectionRule)``;
 
-export const Title = styled.h2`
-  margin: 0 0 1rem;
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: 500;
-  font-size: clamp(2rem, 4vw, 2.85rem);
-  line-height: 1.12;
-  color: ${({ theme }) => theme.colors.white};
+export const Label = styled(SectionLabel)``;
+
+export const Title = styled(SectionTitle)`
+  margin-bottom: 1rem;
 `;
 
 export const Text = styled.p`
-  margin: 0;
+  margin: 0 0 0.75rem;
   font-size: 1.0625rem;
   line-height: 1.78;
   color: ${({ theme }) => theme.colors.muted};
+`;
+
+export const List = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding: 0.45rem 0 0.45rem 1.35rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: ${({ theme }) => theme.colors.white};
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.95rem;
+      width: 0.45rem;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.gold};
+    }
+  }
 `;
 
 export const Actions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  min-width: min(100%, 240px);
+  min-width: min(100%, 260px);
 `;

@@ -27,7 +27,7 @@ export const Inner = styled.div`
 export const Brand = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
   align-items: center;
 
   @media (min-width: 900px) {

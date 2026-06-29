@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import BrandLogo from '../../components/BrandLogo';
 import MobileNavMenu from '../../components/MobileNavMenu';
-import { buildMobileNavLinks, homeNavItems } from '../../config/navigation';
-import { links } from '../../config/links';
+import {
+  buildMobileNavLinks,
+  homeNavItems,
+  primaryNavItems,
+} from '../../config/navigation';
 import * as S from './index.style';
 
 const MotionHeader = motion(S.Header);
@@ -78,29 +82,10 @@ export default function SiteHeader() {
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
     >
       <S.Inner>
-        <S.Brand as={Link} to="/">
-          Grow With <span>Lakes</span>
-        </S.Brand>
+        <BrandLogo />
         <S.Nav aria-label="Primary">
-          {homeNavItems.map((item) => {
-            const isCareers = item.sectionId === null;
-            const isActive = isCareers
-              ? pathname === links.careers
-              : isHome && activeId === item.sectionId;
-
-            if (isCareers) {
-              return (
-                <S.NavLink
-                  key={item.to}
-                  as={Link}
-                  to={item.to}
-                  data-active={isActive}
-                >
-                  {item.label}
-                </S.NavLink>
-              );
-            }
-
+          {primaryNavItems.map((item) => {
+            const isActive = isHome && activeId === item.sectionId;
             const href = isHome ? `#${item.sectionId}` : `/#${item.sectionId}`;
 
             return (
@@ -110,6 +95,9 @@ export default function SiteHeader() {
             );
           })}
         </S.Nav>
+        <S.HeaderCta href={isHome ? '#contact' : '/#contact'}>
+          Enquire
+        </S.HeaderCta>
         <S.NavMobile>
           <MobileNavMenu links={mobileLinks} />
         </S.NavMobile>

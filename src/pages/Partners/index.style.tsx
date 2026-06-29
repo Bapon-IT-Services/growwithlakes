@@ -1,13 +1,21 @@
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { css, keyframes } from 'styled-components';
+import { SectionTitle } from '../../styles/sectionPrimitives';
+
+const marqueeScroll = keyframes`
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+`;
 
 export const Section = styled.section`
   position: relative;
   z-index: 1;
-  padding: 6rem 1.5rem;
+  padding: clamp(2.75rem, 5vw, 4rem) 1.5rem;
   background: transparent;
   scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 export const Inner = styled.div`
@@ -16,11 +24,23 @@ export const Inner = styled.div`
 `;
 
 export const Header = styled.div`
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
   text-align: center;
   max-width: 40rem;
   margin-left: auto;
   margin-right: auto;
+`;
+
+export const Rule = styled.span`
+  display: block;
+  width: 2.75rem;
+  height: 1px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(
+    90deg,
+    ${({ theme }) => theme.colors.gold},
+    rgba(212, 175, 55, 0.15)
+  );
 `;
 
 export const Label = styled.span`
@@ -33,13 +53,8 @@ export const Label = styled.span`
   font-weight: 600;
 `;
 
-export const Title = styled.h2`
+export const Title = styled(SectionTitle)`
   margin: 0 0 1rem;
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: 500;
-  font-size: clamp(2rem, 4vw, 2.85rem);
-  line-height: 1.12;
-  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const Intro = styled.p`
@@ -49,48 +64,68 @@ export const Intro = styled.p`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
-export const PartnerMarqueeViewport = styled(motion.div)`
+export const PartnerMarqueeViewport = styled.div`
   position: relative;
   z-index: 1;
-  margin: 0 0 2.5rem;
+  width: 100%;
+  max-width: min(100%, 36rem);
+  margin: 0 auto 1.75rem;
   overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
 
-  /* Soft fade at edges for a more premium look */
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  @media (min-width: 640px) {
+    max-width: min(100%, 42rem);
+  }
+
+  @media (min-width: 1024px) {
+    max-width: min(100%, 48rem);
+  }
 `;
 
-export const PartnerMarqueeTrack = styled(motion.div)`
+export const PartnerMarqueeTrack = styled.div<{ $duration: number; $active: boolean }>`
   display: flex;
-  gap: 0;
   width: max-content;
+  ${({ $active, $duration }) =>
+    $active && $duration > 0
+      ? css`
+          animation: ${marqueeScroll} ${$duration}s linear infinite;
+        `
+      : css`
+          animation: none;
+        `}
   will-change: transform;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export const PartnerGroup = styled.div`
   display: flex;
-  gap: 0.75rem;
+  gap: 0.35rem;
   flex-wrap: nowrap;
   align-items: center;
+
+  @media (min-width: 640px) {
+    gap: 0.45rem;
+  }
 `;
 
-export const PartnerItem = styled(motion.div)`
+export const PartnerItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.18rem;
-  padding: 0.2rem 0.55rem;
+  gap: 0.15rem;
+  padding: 0.1rem 0.25rem;
   text-align: center;
   background: transparent;
-  border: 0;
-  border-radius: 0;
-  cursor: default;
 `;
 
 export const PartnerLogo = styled.span`
-  width: clamp(56px, 9vw, 100px);
-  height: clamp(56px, 9vw, 100px);
-  border-radius: clamp(10px, 2vw, 18px);
+  width: clamp(52px, 14vw, 72px);
+  height: clamp(52px, 14vw, 72px);
+  border-radius: clamp(8px, 1.5vw, 14px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -102,20 +137,19 @@ export const PartnerLogo = styled.span`
     height: 100%;
     display: block;
     object-fit: contain;
-    filter: drop-shadow(0 18px 28px rgba(212, 175, 55, 0.12));
   }
 `;
 
 export const PartnerName = styled.span`
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.gold};
   line-height: 1.15;
   opacity: 0.8;
 `;
 
-export const CtaRow = styled(motion.div)`
+export const CtaRow = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;

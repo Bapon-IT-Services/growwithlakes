@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import Reveal from '../../components/Reveal';
 import { links } from '../../config/links';
 import { useReducedMotion } from 'framer-motion';
-import { fadeUp, partnerNameIn, staggerFast } from '../../motion/variants';
 import * as S from './index.style';
 import allansTeamLogo from "../../assets/drlakes/allan's_team.jpeg";
 import bubblegumLogo from '../../assets/drlakes/bubblegum.jpeg';
@@ -11,6 +10,8 @@ import see2BelieveLogo from '../../assets/drlakes/see_2_believe.jpeg';
 import surreyRemovalsLogo from '../../assets/drlakes/sr.jpeg';
 import soulUnityLogo from '../../assets/drlakes/soul_unity.jpeg';
 import soulUnityLogo2 from '../../assets/drlakes/soul.jpeg';
+import stopByLogo from '../../assets/drlakes/Stop_by_logo.png';
+import gemLogo from '../../assets/drlakes/Gem_logo.png';
 
 const partners = [
   { name: 'Soul Unity', logoSrc: soulUnityLogo },
@@ -18,31 +19,24 @@ const partners = [
   { name: 'Surrey Removals', logoSrc: surreyRemovalsLogo },
   { name: 'See 2 Believe', logoSrc: see2BelieveLogo },
   { name: 'Soul Unity', logoSrc: soulUnityLogo2 },
-   { name: "Allan's Team Ltd", logoSrc: allansTeamLogo },
+  { name: "Allan's Team Ltd", logoSrc: allansTeamLogo },
+  { name: 'Stop by jerk', logoSrc: stopByLogo },
+  { name: 'Gem', logoSrc: gemLogo },
 ] as const;
-//logos//
+
+/** Slower loop on a shorter track keeps logos readable */
+function marqueeDuration(trackWidth: number) {
+  return Math.max(10, trackWidth / 85);
+}
+
 export default function Partners() {
   const reducedMotion = useReducedMotion();
   const groupARef = useRef<HTMLDivElement | null>(null);
   const [loopX, setLoopX] = useState(0);
 
-  const partnerNames = partners.map((p) => p.name);
-
-  const logoSvg = (name: string) => {
-    const src = partners.find((p) => p.name === name)?.logoSrc;
-    if (src) {
-      return <img src={src} alt="" loading="lazy" />;
-    }
-
-    switch (name) {
-      default:
-        return (
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2.35" />
-          </svg>
-        );
-    }
-  };
+  const logoSvg = (logoSrc: string) => (
+    <img src={logoSrc} alt="" loading="lazy" decoding="async" />
+  );
 
   useEffect(() => {
     const measure = () => {
@@ -57,95 +51,58 @@ export default function Partners() {
     return () => window.removeEventListener('resize', measure);
   }, []);
 
+  const marqueeActive = !reducedMotion && loopX > 0;
+
   return (
     <S.Section id="partners">
-      <S.Inner>
-        <Reveal>
+      <Reveal sectionId="partners">
+        <S.Inner>
           <S.Header>
-            <S.Label>Partners</S.Label>
-            <S.Title>Aligned collaborators</S.Title>
+            <S.Rule aria-hidden />
+            <S.Label>Partners &amp; Collaboration</S.Label>
+            <S.Title>Building bigger together</S.Title>
             <S.Intro>
-              A growing network of organisations and platforms that share the values of
-              community, culture and forward motion. Official partners are featured here as
-              the ecosystem expands.
+              We are building a network of aligned partners across media, creative development,
+              technology, business and community. Together, we create opportunities, share
+              resources and build something bigger than individual platforms.
             </S.Intro>
           </S.Header>
-        </Reveal>
-        <S.PartnerMarqueeViewport
-          variants={staggerFast}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          aria-label="Partner organisations"
-        >
+          <S.PartnerMarqueeViewport aria-label="Partner organisations">
           <S.PartnerMarqueeTrack
-            animate={
-              reducedMotion || loopX <= 0 ? { x: 0 } : { x: [0, -loopX] }
-            }
-            transition={
-              reducedMotion || loopX <= 0
-                ? undefined
-                : {
-                    duration: 26,
-                    ease: 'linear',
-                    repeat: Infinity,
-                    repeatType: 'loop',
-                  }
-            }
+            $active={marqueeActive}
+            $duration={marqueeDuration(loopX)}
           >
-            <S.PartnerGroup aria-hidden ref={groupARef}>
-              {partnerNames.map((name, idx) => (
-                <S.PartnerItem
-                  key={`a-${name}-${idx}`}
-                  variants={partnerNameIn}
-                  whileHover={{
-                    scale: 1.03,
-                    y: -2,
-                    transition: { type: 'spring', stiffness: 420, damping: 22 },
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <S.PartnerLogo aria-hidden>{logoSvg(name)}</S.PartnerLogo>
-                  <S.PartnerName>{name}</S.PartnerName>
+            <S.PartnerGroup ref={groupARef}>
+              {partners.map((partner, idx) => (
+                <S.PartnerItem key={`a-${partner.name}-${idx}`}>
+                  <S.PartnerLogo aria-hidden>{logoSvg(partner.logoSrc)}</S.PartnerLogo>
+                  <S.PartnerName>{partner.name}</S.PartnerName>
                 </S.PartnerItem>
               ))}
             </S.PartnerGroup>
 
             <S.PartnerGroup aria-hidden>
-              {partnerNames.map((name, idx) => (
-                <S.PartnerItem
-                  key={`b-${name}-${idx}`}
-                  variants={partnerNameIn}
-                  whileHover={{
-                    scale: 1.03,
-                    y: -2,
-                    transition: { type: 'spring', stiffness: 420, damping: 22 },
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <S.PartnerLogo aria-hidden>{logoSvg(name)}</S.PartnerLogo>
-                  <S.PartnerName>{name}</S.PartnerName>
+              {partners.map((partner, idx) => (
+                <S.PartnerItem key={`b-${partner.name}-${idx}`}>
+                  <S.PartnerLogo aria-hidden>{logoSvg(partner.logoSrc)}</S.PartnerLogo>
+                  <S.PartnerName>{partner.name}</S.PartnerName>
                 </S.PartnerItem>
               ))}
             </S.PartnerGroup>
           </S.PartnerMarqueeTrack>
-        </S.PartnerMarqueeViewport>
-        <S.CtaRow
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-8% 0px' }}
-        >
-          <Space size="middle" wrap>
-            <Button type="primary" size="large" href={links.becomePartner}>
-              Become a Partner
-            </Button>
-            {/* <Button size="large" href={links.registerInterest}>
-              Register Interest
-            </Button> */}
-          </Space>
-        </S.CtaRow>
-      </S.Inner>
+          </S.PartnerMarqueeViewport>
+          <S.CtaRow>
+            <Space size="middle" wrap>
+              <Button type="primary" size="large" href={links.becomePartner}>
+                Become a Partner
+              </Button>
+              <Button size="large" href={links.registerInterest}>
+                Register Your Interest
+              </Button>
+            </Space>
+          </S.CtaRow>
+        </S.Inner>
+      </Reveal>
     </S.Section>
   );
 }

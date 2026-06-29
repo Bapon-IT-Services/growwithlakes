@@ -1,20 +1,16 @@
-import { PauseCircleOutlined, PlayCircleOutlined, TeamOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
+import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import { motion } from 'framer-motion';
 import { useDrLakesAudio, useDrLakesHeroAudio } from '../../context/DrLakesAudioContext';
-import { useNavigate } from 'react-router-dom';
+import { links } from '../../config/links';
 import { staggerHero, fadeUp } from '../../motion/variants';
 import * as S from './index.style';
 
 const waveHeights = [20, 32, 48, 26, 58, 36, 52, 24, 56, 34, 44, 22, 50, 30, 40] as const;
 
-const chips = ['Media & hosting', 'A&R & development', 'Coaching', 'Partnerships'] as const;
-
 export default function Hero() {
   useDrLakesHeroAudio();
-  const navigate = useNavigate();
   const { isPlaying, togglePlayback } = useDrLakesAudio();
-  console.log(navigate);
 
   return (
     <S.Section id="top">
@@ -30,32 +26,34 @@ export default function Hero() {
                 Powered by Dr Lakes
               </S.Badge>
               <S.Lead variants={fadeUp}>
-                Where music, conversation, opportunity and growth come together
+                Where music, conversation, opportunity and growth come together.
               </S.Lead>
-              <S.Tagline variants={fadeUp}>
-                A premium platform building a network of media, creatives, businesses and
-                community — opening doors for collaboration and what comes next.
-              </S.Tagline>
-              <S.ChipRow variants={fadeUp} aria-label="Focus areas">
-                {chips.map((label) => (
-                  <S.Chip key={label}>{label}</S.Chip>
-                ))}
-              </S.ChipRow>
               <S.ButtonRow variants={fadeUp}>
-                <Space size="middle" wrap>
+                <S.MusicButtonWrap>
                   <Button
                     type="primary"
-                    size="large"
+                    size="middle"
                     onClick={togglePlayback}
                     icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
                     aria-label={isPlaying ? 'Pause Dr Lakes audio' : 'Play Dr Lakes audio'}
                   >
                     {isPlaying ? 'Pause' : 'Listen Now'}
                   </Button>
-                  <Button size="large" onClick={() => navigate('/careers')} icon={<TeamOutlined />}>
-                    Work With Me
+                </S.MusicButtonWrap>
+                <S.CtaButtonRow>
+                  <Button size="middle" href={links.joinNetwork}>
+                    Join the Network
                   </Button>
-                </Space>
+                  <Button size="middle" href="/#opportunities">
+                    Explore Opportunities
+                  </Button>
+                  <Button size="middle" href={links.calendly} target="_blank">
+                    Free Consultation
+                  </Button>
+                  <Button size="middle" href={links.eventbrite} target="_blank">
+                    View Events
+                  </Button>
+                </S.CtaButtonRow>
               </S.ButtonRow>
               <motion.div variants={fadeUp}>
                 <motion.div
@@ -89,8 +87,8 @@ export default function Hero() {
               transition={{ delay: 0.35, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
             >
               <S.VisualTop>
-                <S.VisualLabel>Signal</S.VisualLabel>
-                <S.VisualStatus>Live energy</S.VisualStatus>
+                <S.VisualLabel>Community</S.VisualLabel>
+                <S.VisualStatus>Growing together</S.VisualStatus>
               </S.VisualTop>
               <S.WaveWrap aria-hidden>
                 {waveHeights.map((h, i) => (
@@ -109,7 +107,8 @@ export default function Hero() {
               </S.WaveWrap>
               <S.VisualFoot>
                 <S.VisualFootText>
-                  Culture-first storytelling, studio polish, and room for what&apos;s next.
+                  Conversation. Community. Opportunity. Growth. — a platform built to connect
+                  people, not just a personal brand.
                 </S.VisualFootText>
                 <S.VisualAccent aria-hidden>✦</S.VisualAccent>
               </S.VisualFoot>

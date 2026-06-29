@@ -96,21 +96,18 @@ export const Grid = styled.div`
   align-items: center;
 
   @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 420px);
-    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: minmax(0, 1.35fr) minmax(240px, 360px);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
   }
 `;
 
 export const Content = styled.div`
   text-align: center;
+  min-width: 0;
 
   @media (min-width: 1024px) {
     text-align: left;
-    max-width: 36rem;
-  }
-
-  @media (min-width: 1280px) {
-    max-width: 38rem;
+    max-width: none;
   }
 `;
 
@@ -248,46 +245,84 @@ export const Chip = styled.span`
 export const ButtonRow = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  justify-content: center;
+  gap: 0.75rem;
   align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
-  .ant-space {
-    width: 100%;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 1.25rem;
+  @media (min-width: 1024px) {
+    align-items: flex-start;
   }
+`;
+
+export const MusicButtonWrap = styled.div`
+  width: 100%;
+  max-width: 100%;
 
   .ant-btn {
     width: 100%;
-    min-width: 0;
-    height: 50px !important;
-    padding-inline: 1.35rem;
+    height: 40px !important;
+    padding-inline: 1rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.22);
+  }
+
+  @media (min-width: 1024px) {
+    width: auto;
+
+    .ant-btn {
+      width: auto;
+      min-width: 9rem;
+    }
+  }
+`;
+
+export const CtaButtonRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  .ant-btn {
+    width: 100%;
+    height: 44px !important;
+    padding-inline: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-
-    .ant-space {
-      width: auto;
-      flex-direction: row;
-      gap: 1rem;
-    }
+    flex-wrap: nowrap;
+    gap: 0.5rem;
 
     .ant-btn {
+      flex: 1 1 0;
       width: auto;
-      min-width: 9.5rem;
+      min-width: 0;
+      height: 36px !important;
+      padding-inline: 0.5rem;
+      font-size: 0.6875rem;
+      letter-spacing: 0.01em;
     }
   }
 
-  .ant-btn-primary {
-    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.22);
+  @media (min-width: 1280px) {
+    gap: 0.6rem;
+
+    .ant-btn {
+      height: 38px !important;
+      padding-inline: 0.7rem;
+      font-size: 0.75rem;
+    }
   }
 `;
 
@@ -338,15 +373,15 @@ export const OrbitRing = styled(motion.div)`
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 1px solid rgba(212, 175, 55, 0.14);
-  box-shadow: 0 0 60px rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.32);
+  box-shadow: 0 0 60px rgba(212, 175, 55, 0.1);
 `;
 
 export const OrbitRingDashed = styled(motion.div)`
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 1px dashed rgba(212, 175, 55, 0.2);
+  border: 1px dashed rgba(212, 175, 55, 0.36);
 `;
 
 export const VisualPanel = styled(motion.div)`
@@ -356,7 +391,7 @@ export const VisualPanel = styled(motion.div)`
   max-width: 380px;
   padding: clamp(1.75rem, 4vw, 2.35rem) clamp(1.5rem, 4vw, 2rem);
   border-radius: ${({ theme }) => theme.radius.lg};
-  border: 1px solid rgba(212, 175, 55, 0.28);
+  border: 1px solid rgba(212, 175, 55, 0.42);
   background: linear-gradient(
     165deg,
     rgba(255, 255, 255, 0.055) 0%,
@@ -460,7 +495,7 @@ export const Divider = styled.span`
     ${({ theme }) => theme.colors.gold},
     transparent
   );
-  opacity: 0.45;
+  opacity: 0.72;
 
   @media (min-width: 1024px) {
     margin: 2.5rem 0 0;

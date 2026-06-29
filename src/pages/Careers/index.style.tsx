@@ -171,6 +171,34 @@ export const HeroLead = styled.p`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
+export const PlatformNote = styled.p`
+  margin: 1.75rem 0 0;
+  max-width: 40rem;
+  padding: 1rem 1.25rem;
+  border-radius: ${({ theme }) => theme.radius.md};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: ${({ theme }) => theme.colors.muted};
+
+  strong {
+    color: ${({ theme }) => theme.colors.white};
+    font-weight: 600;
+  }
+`;
+
+export const InlineLink = styled(Link)`
+  color: ${({ theme }) => theme.colors.gold};
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color 0.25s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.goldBright};
+  }
+`;
+
 export const PillRow = styled(motion.div)`
   margin-top: 2rem;
   display: flex;
@@ -271,11 +299,19 @@ export const RolesSection = styled.section`
 `;
 
 export const RolesHeading = styled.h2`
-  margin: 0 0 2rem;
+  margin: 0 0 0.75rem;
   font-family: ${({ theme }) => theme.fonts.display};
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 500;
   color: ${({ theme }) => theme.colors.white};
+`;
+
+export const RolesIntro = styled.p`
+  margin: 0 0 2rem;
+  max-width: 40rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: ${({ theme }) => theme.colors.muted};
 `;
 
 export const RoleList = styled(motion.ol)`
@@ -483,23 +519,4 @@ export const CtaRow = styled.div`
   flex-wrap: wrap;
   gap: 0.875rem;
   justify-content: center;
-`;
-
-export const PageFooter = styled.footer`
-  position: relative;
-  z-index: 1;
-  padding: 2rem 1.5rem 3rem;
-  text-align: center;
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-`;
-
-export const PageFooterLink = styled(Link)`
-  font-size: 0.875rem;
-  letter-spacing: 0.06em;
-  color: ${({ theme }) => theme.colors.muted};
-  transition: color 0.25s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.gold};
-  }
 `;

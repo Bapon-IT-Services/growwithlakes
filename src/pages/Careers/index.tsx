@@ -1,10 +1,11 @@
 import { Button } from 'antd';
 import { useEffect } from 'react';
 import Reveal from '../../components/Reveal';
-import { careerRoles} from '../../config/careers';
+import { careerRoles, focusAreas } from '../../config/careers';
 import CareerRoleItem from './CareerRoleItem';
 import { links } from '../../config/links';
-import {staggerFast } from '../../motion/variants';
+import { popIn, staggerFast } from '../../motion/variants';
+import Footer from '../Footer';
 import CareersHeader from './CareersHeader';
 import * as S from './index.style';
 
@@ -21,31 +22,43 @@ export default function CareersPage() {
       <S.Main>
         <S.Hero>
           <Reveal>
-            <S.HeroEyebrow>Open roles · Grow With Lakes</S.HeroEyebrow>
-            <S.HeroTitle>Build the <S.HeroAccent>ecosystem</S.HeroAccent> with us</S.HeroTitle>
+            <S.HeroEyebrow>Careers · Grow With Lakes Platform</S.HeroEyebrow>
+            <S.HeroTitle>
+              Join the team behind the <S.HeroAccent>platform</S.HeroAccent>
+            </S.HeroTitle>
             <S.HeroLead>
-              Grow With Lakes is building a team around media, music, community and
-              partnerships. Explore open directions below — applying opens your email with a
-              ready-to-send message so we can pick up the conversation quickly.
+              Grow With Lakes connects people to opportunities, partnerships and growth
+              through conversation, community and collaboration. These roles are for people
+              who want to help build that ecosystem — powered by Dr Lakes.
             </S.HeroLead>
           </Reveal>
-          {/* <S.PillRow
+          {/* <S.PlatformNote>
+            <strong>Looking for coaching or collaboration instead?</strong> Visit{' '}
+            <S.InlineLink to="/#work-with-me">Work With Me</S.InlineLink> on the home page
+            to book a free consultation — this careers page is for joining the team.
+          </S.PlatformNote> */}
+          <S.PillRow
             variants={staggerFast}
             initial="hidden"
             animate="show"
-            aria-label="Focus areas"
+            aria-label="Platform focus areas"
           >
             {focusAreas.map((area) => (
               <S.Pill key={area} $area={area} variants={popIn}>
                 {area}
               </S.Pill>
             ))}
-          </S.PillRow> */}
+          </S.PillRow>
         </S.Hero>
 
         <S.RolesSection aria-labelledby="open-roles-heading">
           <Reveal>
-            <S.RolesHeading id="open-roles-heading">Open directions</S.RolesHeading>
+            <S.RolesHeading id="open-roles-heading">Open roles on the platform</S.RolesHeading>
+            <S.RolesIntro>
+              Jobs, interviews, creative collaborations and community-led opportunities —
+              explore directions below and apply when something aligns with your skills and
+              passion for growth.
+            </S.RolesIntro>
           </Reveal>
           <S.RoleList
             variants={staggerFast}
@@ -61,22 +74,23 @@ export default function CareersPage() {
 
         <Reveal>
           <S.CtaBand>
-            <S.CtaTitle>Not seeing your fit?</S.CtaTitle>
+            <S.CtaTitle>Not seeing the right role?</S.CtaTitle>
             <S.CtaText>
-              Send a general career inquiry or explore how we can work together — we read
-              every message and follow up when there is alignment.
+              Send a general career inquiry and tell us how you could contribute to the
+              platform. We read every message and follow up when there is alignment.
             </S.CtaText>
             <S.CtaRow>
               <Button size="large" type="primary" href={links.generalCareerApply}>
                 General career inquiry
               </Button>
+              <Button size="large" href="/#work-with-me">
+                Work With Me
+              </Button>
             </S.CtaRow>
           </S.CtaBand>
         </Reveal>
 
-        <S.PageFooter>
-          <S.PageFooterLink to="/">← Return to Grow With Lakes</S.PageFooterLink>
-        </S.PageFooter>
+        <Footer />
       </S.Main>
     </S.Page>
   );

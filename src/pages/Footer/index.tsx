@@ -1,4 +1,5 @@
 import Reveal from '../../components/Reveal';
+import SocialLinks from '../../components/SocialLinks';
 import * as S from './index.style';
 
 export default function Footer() {
@@ -6,14 +7,15 @@ export default function Footer() {
 
   return (
     <S.Section id="footer">
-      <Reveal>
+      <Reveal sectionId="footer">
         <S.Inner>
           <S.Brand>
             <S.BrandTitle>Grow With Lakes</S.BrandTitle>
             <S.PoweredBy>
-              Powered by Dr Lakes. A community-driven platform connecting media,
-              creatives, businesses and opportunities.
+              A platform connecting people to opportunities, partnerships and growth —
+              through conversation, community and collaboration. Powered by Dr Lakes.
             </S.PoweredBy>
+            <SocialLinks />
           </S.Brand>
 
           <S.Copyright>
@@ -24,4 +26,3 @@ export default function Footer() {
     </S.Section>
   );
 }
-

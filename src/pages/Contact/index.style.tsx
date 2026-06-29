@@ -1,57 +1,78 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import {
+  PageContainer,
+  SectionLabel,
+  SectionLead,
+  SectionRule,
+  SectionShell,
+  SectionTitle,
+} from '../../styles/sectionPrimitives';
 
-export const Section = styled.section`
-  position: relative;
-  z-index: 1;
-  padding: 6rem 1.5rem 6.5rem;
-  background: transparent;
-  scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
+export const Section = styled(SectionShell)``;
+
+export const Inner = styled(PageContainer)`
+  display: grid;
+  gap: 2.5rem;
+  text-align: left;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
 `;
 
-export const Inner = styled.div`
-  max-width: ${({ theme }) => theme.maxWidth};
-  margin: 0 auto;
-  text-align: center;
-  padding: clamp(2.25rem, 5vw, 3.25rem);
-  border-radius: ${({ theme }) => theme.radius.lg};
-  background: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+export const IntroCol = styled.div``;
+
+export const FormCol = styled.div`
+  padding-top: 0.25rem;
+
+  @media (min-width: 900px) {
+    padding: 1.5rem 0 1.5rem 2.5rem;
+    border-left: 1px solid ${({ theme }) => theme.colors.border};
+  }
 `;
 
-export const Label = styled.span`
-  display: block;
+export const Rule = styled(SectionRule)``;
+
+export const Label = styled(SectionLabel)``;
+
+export const Title = styled(SectionTitle)`
   margin-bottom: 0.75rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
+`;
+
+export const Intro = styled(SectionLead)`
+  margin-bottom: 2rem;
+`;
+
+export const SideBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+`;
+
+export const SideLabel = styled.span`
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.gold};
-  font-weight: 600;
-`;
-
-export const Title = styled.h2`
-  margin: 0 0 2rem;
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: 500;
-  font-size: clamp(2rem, 4vw, 2.85rem);
-  line-height: 1.12;
-  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const Details = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  align-items: center;
+  gap: 0.85rem;
 `;
 
 export const Link = styled(motion.a)`
-  font-size: 1.125rem;
+  font-size: 1.05rem;
   color: ${({ theme }) => theme.colors.white};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gold};
   padding-bottom: 2px;
   display: inline-block;
+  width: fit-content;
 
   &:hover {
     color: ${({ theme }) => theme.colors.goldBright};
@@ -63,9 +84,12 @@ export const Phone = styled(Link)`
   font-variant-numeric: tabular-nums;
 `;
 
-export const Footnote = styled.p`
-  margin: 3rem 0 0;
-  font-size: 0.8125rem;
-  color: ${({ theme }) => theme.colors.mutedDark};
-  letter-spacing: 0.02em;
+export const SocialWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+
+  > div {
+    justify-content: flex-start;
+  }
 `;

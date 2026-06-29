@@ -6,14 +6,23 @@ export type HomeNavItem = {
   sectionId: string | null;
 };
 
-export const homeNavItems: HomeNavItem[] = [
+/** Shown in the desktop header — kept short so the bar stays clean */
+export const primaryNavItems: HomeNavItem[] = [
   { to: '/#about', label: 'About', sectionId: 'about' },
-  { to: '/#services', label: 'What I do', sectionId: 'services' },
   { to: '/#opportunities', label: 'Opportunities', sectionId: 'opportunities' },
-  { to: links.careers, label: 'Careers', sectionId: null },
   { to: '/#partners', label: 'Partners', sectionId: 'partners' },
-  { to: '/#contact', label: 'Contact', sectionId: 'contact' },
+  { to: '/#events', label: 'Events', sectionId: 'events' },
 ];
+
+/** Full site map — mobile menu & scroll spy */
+export const secondaryNavItems: HomeNavItem[] = [
+  { to: '/#contact', label: 'Enquire', sectionId: 'contact' },
+  { to: '/#impact', label: 'Impact', sectionId: 'impact' },
+  { to: '/#work-with-me', label: 'Work with me', sectionId: 'work-with-me' },
+  { to: links.careers, label: 'Careers', sectionId: null },
+];
+
+export const homeNavItems: HomeNavItem[] = [...primaryNavItems, ...secondaryNavItems];
 
 export type MobileNavLink = {
   key: string;

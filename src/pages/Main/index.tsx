@@ -5,29 +5,34 @@ import { useScrollToHash } from '../../hooks/useScrollToHash';
 import SiteHeader from '../SiteHeader';
 import Hero from '../Hero';
 import AboutUs from '../AboutUs';
+import Quote from '../Quote';
+import ImpactCommunity from '../ImpactCommunity';
 import WhatIDo from '../WhatIDo';
 import Opportunities from '../Opportunities';
 import Partners from '../Partners';
+import Events from '../Events';
 import Contact from '../Contact';
 import Footer from '../Footer';
 import * as S from './index.style';
 
 export default function Main() {
-  const { hash } = useLocation();
+  const { pathname, hash, key } = useLocation();
   useScrollToHash();
 
   useLayoutEffect(() => {
+    if (pathname !== '/') return;
+
     const previous = history.scrollRestoration;
     history.scrollRestoration = 'manual';
 
     if (!hash) {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     return () => {
       history.scrollRestoration = previous;
     };
-  }, [hash]);
+  }, [pathname, hash, key]);
 
   return (
     <S.Page>
@@ -36,9 +41,12 @@ export default function Main() {
       <S.Main>
         <Hero />
         <AboutUs />
-        <WhatIDo />
+        <Quote />
+        <ImpactCommunity />
         <Opportunities />
         <Partners />
+        <WhatIDo />
+        <Events />
         <Contact />
         <Footer />
       </S.Main>

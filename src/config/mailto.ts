@@ -51,6 +51,63 @@ export function workWithMeMail() {
   );
 }
 
+export function freeConsultationMail() {
+  return buildMailto(
+    'Free Consultation — Grow With Lakes',
+    [
+      'Hello Dr Lakes / Grow With Lakes team,',
+      '',
+      'I would like to book a free consultation.',
+      '',
+      'Name:',
+      'Area of interest:',
+      'Brief overview of what I am looking for:',
+      '',
+      'Best regards,',
+    ].join('\n')
+  );
+}
+
+export function viewEventsMail() {
+  return buildMailto(
+    'View Events — Grow With Lakes',
+    [
+      'Hello Grow With Lakes team,',
+      '',
+      'I would like to find out more about upcoming events.',
+      '',
+      'Name:',
+      'What I am interested in:',
+      '',
+      'Thank you.',
+    ].join('\n')
+  );
+}
+
+export function enquiryMail(values: {
+  name: string;
+  email: string;
+  phone?: string;
+  interest: string;
+  message: string;
+}) {
+  const lines = [
+    'Hello Grow With Lakes team,',
+    '',
+    `Name: ${values.name}`,
+    `Email: ${values.email}`,
+    values.phone ? `Phone: ${values.phone}` : '',
+    `Interest: ${values.interest}`,
+    '',
+    'Message:',
+    values.message,
+    '',
+    'Thank you.',
+  ].filter((line) => line !== '');
+
+  return buildMailto(`Enquiry — ${values.interest}`, lines.join('\n'));
+}
+
 export function generalCareerInquiryMail() {
   return buildMailto(
     'Career inquiry — Grow With Lakes',
