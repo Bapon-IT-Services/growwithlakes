@@ -8,18 +8,20 @@ import {
  */
 export const links = {
   careers: '/careers',
+  contactSection: '/#contact',
+  opportunitiesSection: '/#opportunities',
   workWithMe: workWithMeMail(),
   applyNow: generalCareerInquiryMail(),
   viewOpportunities:
-    'mailto:jamaila@growwithlakes.com?subject=View%20Opportunities',
+    'mailto:growwithlakes@gmail.com?subject=View%20Opportunities',
   postOpportunity:
-    'mailto:jamaila@growwithlakes.com?subject=Post%20an%20Opportunity',
+    'mailto:growwithlakes@gmail.com?subject=Post%20an%20Opportunity',
   becomePartner:
-    'mailto:jamaila@growwithlakes.com?subject=Partner%20%2F%20Collaborator%20Interest',
+    'mailto:growwithlakes@gmail.com?subject=Partner%20%2F%20Collaborator%20Interest',
   registerInterest:
-    'mailto:jamaila@growwithlakes.com?subject=Register%20Interest',
+    'mailto:growwithlakes@gmail.com?subject=Register%20Interest',
   joinNetwork:
-    'mailto:jamaila@growwithlakes.com?subject=Join%20the%20Network',
+    'mailto:growwithlakes@gmail.com?subject=Join%20the%20Network',
   /** Replace with live Calendly URL for Sunday Growth Conversations */
   calendly: 'https://calendly.com/',
   /** Replace with live Eventbrite organiser or collection URL */
@@ -27,10 +29,10 @@ export const links = {
   freeConsultation: 'https://calendly.com/',
   viewEvents: 'https://www.eventbrite.com/',
   generalCareerApply: generalCareerInquiryMail(),
-  email: 'mailto:jamaila@growwithlakes.com',
+  email: 'growwithlakes@gmail.com',
   phone: 'tel:+442031054511',
   /** Social placeholders — update when profiles go live */
-  instagram: 'https://instagram.com/',
+  instagram: 'https://www.instagram.com/dr.lakes2u?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
   youtube: 'https://youtube.com/',
   spotify: 'https://open.spotify.com/',
   eventbriteSocial: 'https://www.eventbrite.com/',

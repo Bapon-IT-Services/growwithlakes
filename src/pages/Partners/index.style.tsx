@@ -123,8 +123,8 @@ export const PartnerItem = styled.div`
 `;
 
 export const PartnerLogo = styled.span`
-  width: clamp(52px, 14vw, 72px);
-  height: clamp(52px, 14vw, 72px);
+  width: clamp(52px, 14vw, 100px);
+  height: clamp(52px, 14vw, 100px);
   border-radius: clamp(8px, 1.5vw, 14px);
   display: inline-flex;
   align-items: center;

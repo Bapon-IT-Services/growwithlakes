@@ -8,6 +8,7 @@ import AboutUs from '../AboutUs';
 import Quote from '../Quote';
 import ImpactCommunity from '../ImpactCommunity';
 import WhatIDo from '../WhatIDo';
+import WorkWithMe from '../WorkWithMe';
 import Opportunities from '../Opportunities';
 import Partners from '../Partners';
 import Events from '../Events';
@@ -42,10 +43,11 @@ export default function Main() {
         <Hero />
         <AboutUs />
         <Quote />
+        <WhatIDo />
         <ImpactCommunity />
         <Opportunities />
         <Partners />
-        <WhatIDo />
+        <WorkWithMe />
         <Events />
         <Contact />
         <Footer />

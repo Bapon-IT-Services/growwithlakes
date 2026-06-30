@@ -18,6 +18,7 @@ export const primaryNavItems: HomeNavItem[] = [
 export const secondaryNavItems: HomeNavItem[] = [
   { to: '/#contact', label: 'Enquire', sectionId: 'contact' },
   { to: '/#impact', label: 'Impact', sectionId: 'impact' },
+  { to: '/#what-i-do', label: 'What I do', sectionId: 'what-i-do' },
   { to: '/#work-with-me', label: 'Work with me', sectionId: 'work-with-me' },
   { to: links.careers, label: 'Careers', sectionId: null },
 ];

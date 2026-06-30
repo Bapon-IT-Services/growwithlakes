@@ -16,28 +16,33 @@ export default function Opportunities() {
     <S.Section id="opportunities">
       <Reveal sectionId="opportunities">
         <S.Panel>
-          <S.Copy>
+          <S.Header>
             <S.Rule aria-hidden />
             <S.Label>Opportunities</S.Label>
             <S.Title>Growth starts with access</S.Title>
             <S.Text>We connect people to:</S.Text>
-            <S.List>
-              {opportunityTypes.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </S.List>
-          </S.Copy>
-          <S.Actions>
-            <Button type="primary" size="large" block href={links.careers}>
-              Explore Opportunities
-            </Button>
-            <Button size="large" block href={links.applyNow}>
-              Apply Now
-            </Button>
-            <Button size="large" block href={links.eventbrite} target="_blank">
-              View Events
-            </Button>
-          </S.Actions>
+          </S.Header>
+
+          <S.OpportunityGrid>
+            {opportunityTypes.map((item) => (
+              <S.OpportunityItem key={item}>{item}</S.OpportunityItem>
+            ))}
+          </S.OpportunityGrid>
+
+          <S.ActionBar>
+            <S.ActionLabel>Take the next step</S.ActionLabel>
+            <S.ActionButtons>
+              <Button type="primary" size="large" block href={links.opportunitiesSection}>
+                Explore Opportunities
+              </Button>
+              <Button size="large" block href={links.careers}>
+                Apply Now
+              </Button>
+              <Button size="large" block href={links.eventbrite} target="_blank">
+                View Events
+              </Button>
+            </S.ActionButtons>
+          </S.ActionBar>
         </S.Panel>
       </Reveal>
     </S.Section>

@@ -93,10 +93,10 @@ export default function Partners() {
           </S.PartnerMarqueeViewport>
           <S.CtaRow>
             <Space size="middle" wrap>
-              <Button type="primary" size="large" href={links.becomePartner}>
+              <Button type="primary" size="large" href={links.contactSection}>
                 Become a Partner
               </Button>
-              <Button size="large" href={links.registerInterest}>
+              <Button size="large" href={links.contactSection}>
                 Register Your Interest
               </Button>
             </Space>

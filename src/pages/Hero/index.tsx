@@ -8,6 +8,13 @@ import * as S from './index.style';
 
 const waveHeights = [20, 32, 48, 26, 58, 36, 52, 24, 56, 34, 44, 22, 50, 30, 40] as const;
 
+const heroCtas = [
+  { label: 'Join the Network', href: links.contactSection, external: false },
+  { label: 'Explore Opportunities', href: links.opportunitiesSection, external: false },
+  { label: 'Free Consultation', href: links.calendly, external: true },
+  { label: 'View Events', href: links.eventbrite, external: true },
+] as const;
+
 export default function Hero() {
   useDrLakesHeroAudio();
   const { isPlaying, togglePlayback } = useDrLakesAudio();
@@ -40,20 +47,20 @@ export default function Hero() {
                     {isPlaying ? 'Pause' : 'Listen Now'}
                   </Button>
                 </S.MusicButtonWrap>
-                <S.CtaButtonRow>
-                  <Button size="middle" href={links.joinNetwork}>
-                    Join the Network
-                  </Button>
-                  <Button size="middle" href="/#opportunities">
-                    Explore Opportunities
-                  </Button>
-                  <Button size="middle" href={links.calendly} target="_blank">
-                    Free Consultation
-                  </Button>
-                  <Button size="middle" href={links.eventbrite} target="_blank">
-                    View Events
-                  </Button>
-                </S.CtaButtonRow>
+                <S.CtaGrid>
+                  {heroCtas.map((cta) => (
+                    <S.CtaTile
+                      key={cta.label}
+                      href={cta.href}
+                      {...(cta.external
+                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                        : {})}
+                    >
+                      <S.CtaLabel>{cta.label}</S.CtaLabel>
+                      <S.CtaArrow aria-hidden>→</S.CtaArrow>
+                    </S.CtaTile>
+                  ))}
+                </S.CtaGrid>
               </S.ButtonRow>
               <motion.div variants={fadeUp}>
                 <motion.div

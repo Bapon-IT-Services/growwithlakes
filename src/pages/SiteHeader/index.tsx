@@ -96,7 +96,7 @@ export default function SiteHeader() {
           })}
         </S.Nav>
         <S.HeaderCta href={isHome ? '#contact' : '/#contact'}>
-          Enquire
+         Contact Us
         </S.HeaderCta>
         <S.NavMobile>
           <MobileNavMenu links={mobileLinks} />

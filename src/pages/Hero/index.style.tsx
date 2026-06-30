@@ -280,6 +280,74 @@ export const MusicButtonWrap = styled.div`
   }
 `;
 
+export const CtaGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  @media (min-width: 1024px) {
+    gap: 0.75rem;
+    max-width: 28rem;
+  }
+`;
+
+export const CtaTile = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: ${({ theme }) => theme.radius.sm};
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.gold};
+    outline-offset: 2px;
+  }
+`;
+
+export const CtaLabel = styled.span`
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: ${({ theme }) => theme.colors.white};
+  text-align: left;
+`;
+
+export const CtaArrow = styled.span`
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: ${({ theme }) => theme.colors.gold};
+  opacity: 0.7;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+
+  ${CtaTile}:hover & {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+`;
+
 export const CtaButtonRow = styled.div`
   display: flex;
   flex-direction: column;

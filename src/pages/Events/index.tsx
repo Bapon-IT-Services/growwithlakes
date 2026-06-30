@@ -34,10 +34,10 @@ export default function Events() {
           <S.Header>
             <S.Rule aria-hidden />
             <S.Label>Events</S.Label>
-            <S.Title>The platform comes alive</S.Title>
+            <S.Title>The platform comes alive in person</S.Title>
             <S.Intro>
-              From workshops and live shows to networking and community experiences —
-              discover what&apos;s on through Eventbrite.
+              Workshops, live shows, networking and community experiences — all part of how
+              Grow With Lakes connects people to real-world opportunity and growth.
             </S.Intro>
           </S.Header>
 
@@ -52,10 +52,6 @@ export default function Events() {
           </S.Grid>
 
           <S.CtaBand>
-            <S.CtaCopy>
-              Workshops, live shows, community gatherings and Grow With Lakes experiences —
-              all listed on Eventbrite.
-            </S.CtaCopy>
             <S.CtaActions>
               <Button type="primary" size="large" href={links.eventbrite} target="_blank">
                 View Events
