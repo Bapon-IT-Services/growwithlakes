@@ -2,7 +2,6 @@ import Reveal from '../../components/Reveal';
 import {
   caseStudies,
   eventPhotos,
-  impactPillars,
   impactStories,
   testimonials,
 } from '../../config/impactCommunity';
@@ -32,11 +31,6 @@ export default function ImpactCommunity() {
               Supporting artists, entrepreneurs, businesses and community projects through
               conversation, opportunity, connection and collaboration.
             </S.Body>
-            <S.Pillars aria-label="Platform pillars">
-              {impactPillars.map((pillar) => (
-                <S.Pillar key={pillar}>{pillar}</S.Pillar>
-              ))}
-            </S.Pillars>
           </S.Header>
 
           <S.Block aria-labelledby="impact-testimonials-heading">
@@ -67,7 +61,6 @@ export default function ImpactCommunity() {
             </S.TestimonialGrid>
           </S.Block>
 
-          <S.Divider />
 
           <S.Block aria-labelledby="impact-case-studies-heading">
             <S.BlockHeader>
@@ -108,8 +101,6 @@ export default function ImpactCommunity() {
             </S.CaseStudyList>
           </S.Block>
 
-          <S.Divider />
-
           <S.Block aria-labelledby="impact-event-photos-heading">
             <S.BlockHeader>
               <S.BlockTitle id="impact-event-photos-heading">Event photos</S.BlockTitle>
@@ -131,7 +122,7 @@ export default function ImpactCommunity() {
             </S.PhotoMosaic>
           </S.Block>
 
-          <S.Divider />
+        
 
           <S.Block aria-labelledby="impact-stories-heading">
             <S.BlockHeader>
@@ -140,7 +131,7 @@ export default function ImpactCommunity() {
             </S.BlockHeader>
             <S.StoryList>
               {impactStories.map((story, index) => (
-                <S.StoryRow key={story.id} $alternate={index % 2 === 1}>
+                <S.StoryRow key={story.id}>
                   <S.StoryLead>
                     <S.StoryIndex>Story {String(index + 1).padStart(2, '0')}</S.StoryIndex>
                     <S.StoryHeadline>{story.headline}</S.StoryHeadline>

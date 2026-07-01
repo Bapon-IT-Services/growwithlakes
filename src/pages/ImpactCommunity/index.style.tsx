@@ -466,7 +466,7 @@ export const StoryList = styled.div`
   gap: 0;
 `;
 
-export const StoryRow = styled.article<{ $alternate?: boolean }>`
+export const StoryRow = styled.article`
   display: grid;
   gap: 1rem 1.5rem;
   padding: clamp(1.5rem, 3vw, 2rem) 0;
@@ -480,22 +480,6 @@ export const StoryRow = styled.article<{ $alternate?: boolean }>`
   &:not(:last-child) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-
-  ${({ $alternate }) =>
-    $alternate &&
-    css`
-      @media (min-width: 768px) {
-        & > :first-child {
-          order: 2;
-        }
-
-        & > :last-child {
-          order: 1;
-          text-align: right;
-          align-items: flex-end;
-        }
-      }
-    `}
 `;
 
 export const StoryLead = styled.div`

@@ -37,7 +37,6 @@ export const Text = styled.p`
 
 export const OpportunityGrid = styled.ul`
   display: flex;
-  flex-direction: column;
   gap: 0.65rem;
   padding: 0;
   list-style: none;

@@ -16,14 +16,14 @@ export const testimonials = [
   {
     id: 't2',
     quote:
-      'The platform feels human. It is not just networking — it is genuine support, real conversations and people who actually show up for the community.',
+      'The platform feels human. It is not just networking it is genuine support, real conversations and people who actually show up for the community.',
     name: 'Jordan M.',
     role: 'Community organiser',
   },
   {
     id: 't3',
     quote:
-      'From a single workshop to a full partnership — Dr Lakes helped us structure our idea, find the right people and grow with confidence.',
+      'From a single workshop to a full partnership Dr Lakes helped us structure our idea, find the right people and grow with confidence.',
     name: 'Priya K.',
     role: 'Small business founder',
   },
@@ -42,11 +42,11 @@ export const caseStudies = [
   {
     id: 'cs2',
     tag: 'Community partnership',
-    title: 'Youth programme × local business network',
+    title: 'Youth programme local business network',
     challenge:
       'A community group wanted to run employability workshops but lacked venues, speakers and cross-sector buy-in.',
     result:
-      'Three partner organisations co-hosted six sessions — 40+ young people attended and five secured work placements.',
+      'Three partner organisations co-hosted six sessions 40+ young people attended and five secured work placements.',
   },
   {
     id: 'cs3',
@@ -91,7 +91,7 @@ export const impactStories = [
     id: 'is3',
     headline: 'From isolation to collaboration',
     excerpt:
-      'After years of working alone, Dev found a creative circle through the platform — co-writing sessions, shared gigs and a collective that now books regular events across the city.',
+      'After years of working alone, Dev found a creative circle through the platform co-writing sessions, shared gigs and a collective that now books regular events across the city.',
     person: 'Dev S.',
     context: 'Musician & producer',
     stat: '5-artist collective formed',

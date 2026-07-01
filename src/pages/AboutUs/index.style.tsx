@@ -93,7 +93,7 @@ export const Paragraph = styled.p`
 export const PullQuote = styled.blockquote`
   margin: 0 0 1.5rem;
   padding: 1.15rem 0 1.15rem 1.25rem;
-  border-left: 2px solid ${({ theme }) => theme.colors.gold};
+  // border-left: 2px solid ${({ theme }) => theme.colors.gold};
   font-family: ${({ theme }) => theme.fonts.display};
   font-size: clamp(1.15rem, 2.2vw, 1.35rem);
   font-weight: 500;

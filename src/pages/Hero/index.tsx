@@ -1,5 +1,4 @@
-import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { ExportOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 import { useDrLakesAudio, useDrLakesHeroAudio } from '../../context/DrLakesAudioContext';
 import { links } from '../../config/links';
@@ -9,8 +8,8 @@ import * as S from './index.style';
 const waveHeights = [20, 32, 48, 26, 58, 36, 52, 24, 56, 34, 44, 22, 50, 30, 40] as const;
 
 const heroCtas = [
-  { label: 'Join the Network', href: links.contactSection, external: false },
-  { label: 'Explore Opportunities', href: links.opportunitiesSection, external: false },
+  { label: 'Join the Network', href: links.contactSection, featured: true },
+  { label: 'Explore Opportunities', href: links.opportunitiesSection },
   { label: 'Free Consultation', href: links.calendly, external: true },
   { label: 'View Events', href: links.eventbrite, external: true },
 ] as const;
@@ -36,31 +35,77 @@ export default function Hero() {
                 Where music, conversation, opportunity and growth come together.
               </S.Lead>
               <S.ButtonRow variants={fadeUp}>
-                <S.MusicButtonWrap>
-                  <Button
-                    type="primary"
-                    size="middle"
-                    onClick={togglePlayback}
-                    icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
-                    aria-label={isPlaying ? 'Pause Dr Lakes audio' : 'Play Dr Lakes audio'}
-                  >
-                    {isPlaying ? 'Pause' : 'Listen Now'}
-                  </Button>
-                </S.MusicButtonWrap>
-                <S.CtaGrid>
+                <S.CtaActions>
                   {heroCtas.map((cta) => (
-                    <S.CtaTile
+                    <S.HeroCta
                       key={cta.label}
                       href={cta.href}
-                      {...(cta.external
+                      $featured={'featured' in cta && cta.featured}
+                      {...('external' in cta && cta.external
                         ? { target: '_blank', rel: 'noopener noreferrer' }
                         : {})}
                     >
-                      <S.CtaLabel>{cta.label}</S.CtaLabel>
-                      <S.CtaArrow aria-hidden>→</S.CtaArrow>
-                    </S.CtaTile>
+                      <S.CtaText>{cta.label}</S.CtaText>
+                      <S.CtaIcon aria-hidden>
+                        {'external' in cta && cta.external ? <ExportOutlined /> : '→'}
+                      </S.CtaIcon>
+                    </S.HeroCta>
                   ))}
-                </S.CtaGrid>
+                </S.CtaActions>
+
+                <S.ListenControlWrap $playing={isPlaying}>
+                  <S.ListenBorderSvg
+                    aria-hidden
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="none"
+                  >
+                    <defs>
+                      <linearGradient id="heroListenBorderGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#fff9e6" stopOpacity="0.35" />
+                        <stop offset="40%" stopColor="#ffe9a8" />
+                        <stop offset="55%" stopColor="#e8c547" />
+                        <stop offset="100%" stopColor="#d4af37" stopOpacity="0.4" />
+                      </linearGradient>
+                    </defs>
+                    <S.ListenBorderTrack
+                      x="1.5"
+                      y="1.5"
+                      width="97"
+                      height="97"
+                      rx="4.5"
+                      ry="31"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                    <S.ListenBorderTrace
+                      $playing={isPlaying}
+                      x="1.5"
+                      y="1.5"
+                      width="97"
+                      height="97"
+                      rx="4.5"
+                      ry="31"
+                      vectorEffect="non-scaling-stroke"
+                      pathLength={100}
+                    />
+                  </S.ListenBorderSvg>
+                  <S.ListenControl
+                    type="button"
+                    onClick={togglePlayback}
+                    aria-label={isPlaying ? 'Pause Dr Lakes audio' : 'Play Dr Lakes audio'}
+                  >
+                    <S.ListenIconRing aria-hidden>
+                      {isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+                    </S.ListenIconRing>
+                    <S.ListenCopy>
+                      <S.ListenLabel>{isPlaying ? 'Pause audio' : 'Listen now'}</S.ListenLabel>
+                    </S.ListenCopy>
+                    <S.ListenBars aria-hidden $active={isPlaying}>
+                      {[0, 1, 2, 3, 4].map((i) => (
+                        <S.ListenBar key={i} $index={i} $active={isPlaying} />
+                      ))}
+                    </S.ListenBars>
+                  </S.ListenControl>
+                </S.ListenControlWrap>
               </S.ButtonRow>
               <motion.div variants={fadeUp}>
                 <motion.div

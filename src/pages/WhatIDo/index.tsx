@@ -25,7 +25,10 @@ export default function WhatIDo() {
     <S.Section id="what-i-do">
       <Reveal sectionId="what-i-do">
         <S.Inner>
-          <S.Title>What I do</S.Title>
+          <S.Header>
+            <S.Rule aria-hidden />
+            <S.Title>What I do</S.Title>
+          </S.Header>
           <S.Grid>
             {offerings.map((item) => (
               <S.Card key={item.title}>

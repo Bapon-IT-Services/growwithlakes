@@ -32,10 +32,10 @@ export default function Opportunities() {
           <S.ActionBar>
             <S.ActionLabel>Take the next step</S.ActionLabel>
             <S.ActionButtons>
-              <Button type="primary" size="large" block href={links.opportunitiesSection}>
+              <Button type="primary" size="large" block href={links.careers}>
                 Explore Opportunities
               </Button>
-              <Button size="large" block href={links.careers}>
+              <Button size="large" block href={links.contactSection}>
                 Apply Now
               </Button>
               <Button size="large" block href={links.eventbrite} target="_blank">

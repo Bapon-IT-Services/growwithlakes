@@ -68,7 +68,7 @@ export const PartnerMarqueeViewport = styled.div`
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: min(100%, 36rem);
+  max-width: min(100%, 60rem);
   margin: 0 auto 1.75rem;
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
@@ -78,7 +78,7 @@ export const PartnerMarqueeViewport = styled.div`
   }
 
   @media (min-width: 1024px) {
-    max-width: min(100%, 48rem);
+    max-width: min(100%, 60rem);
   }
 `;
 
@@ -123,8 +123,8 @@ export const PartnerItem = styled.div`
 `;
 
 export const PartnerLogo = styled.span`
-  width: clamp(52px, 14vw, 100px);
-  height: clamp(52px, 14vw, 100px);
+  width: clamp(52px, 14vw, 120px);
+  height: clamp(52px, 14vw, 120px);
   border-radius: clamp(8px, 1.5vw, 14px);
   display: inline-flex;
   align-items: center;

@@ -245,86 +245,91 @@ export const Chip = styled.span`
 export const ButtonRow = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  align-items: stretch;
+  gap: 1rem;
+  align-items: center;
   width: 100%;
-  max-width: 100%;
+  max-width: min(100%, 20rem);
   min-width: 0;
+  margin-inline: auto;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) 
+  {
     align-items: flex-start;
+    margin-inline: 0;
+    max-width: 25rem;
   }
 `;
 
-export const MusicButtonWrap = styled.div`
-  width: 100%;
-  max-width: 100%;
+/* —— Hero nav CTAs —— */
 
-  .ant-btn {
-    width: 100%;
-    height: 40px !important;
-    padding-inline: 1rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.22);
-  }
-
-  @media (min-width: 1024px) {
-    width: auto;
-
-    .ant-btn {
-      width: auto;
-      min-width: 9rem;
-    }
-  }
-`;
-
-export const CtaGrid = styled.div`
+export const CtaActions = styled.nav`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.6rem;
   width: 100%;
-  max-width: 100%;
-  min-width: 0;
-
-  @media (min-width: 1024px) {
-    gap: 0.75rem;
-    max-width: 28rem;
-  }
 `;
 
-export const CtaTile = styled.a`
-  display: flex;
+export const HeroCta = styled.a<{ $featured?: boolean }>`
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  min-height: 3.25rem;
-  padding: 0.75rem 1rem;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.75rem;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(212, 175, 55, 0.28);
-  border-radius: ${({ theme }) => theme.radius.sm};
+  font-family: ${({ theme }) => theme.fonts.body};
+  border-radius: ${({ theme }) => theme.radius.pill};
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
   transition:
-    background 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease;
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+
+  background: ${({ $featured }) =>
+    $featured
+      ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.16) 0%, rgba(212, 175, 55, 0.06) 100%)'
+      : 'rgba(255, 255, 255, 0.04)'};
+  border: 1px solid
+    ${({ $featured }) =>
+      $featured ? 'rgba(212, 175, 55, 0.55)' : 'rgba(212, 175, 55, 0.28)'};
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    pointer-events: none;
+  }
 
   &:hover {
-    background: rgba(212, 175, 55, 0.08);
-    border-color: rgba(212, 175, 55, 0.5);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    border-color: rgba(212, 175, 55, 0.65);
+    box-shadow: 0 10px 28px rgba(212, 175, 55, 0.14);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.gold};
-    outline-offset: 2px;
+    outline-offset: 3px;
   }
 `;
 
-export const CtaLabel = styled.span`
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 0.75rem;
+export const CtaText = styled.span`
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.25;
@@ -332,65 +337,201 @@ export const CtaLabel = styled.span`
   text-align: left;
 `;
 
-export const CtaArrow = styled.span`
+export const CtaIcon = styled.span`
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
-  font-size: 0.875rem;
-  line-height: 1;
+  width: 1.35rem;
+  height: 1.35rem;
+  font-size: 0.7rem;
   color: ${({ theme }) => theme.colors.gold};
-  opacity: 0.7;
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.12);
+  transition: transform 0.22s ease;
 
-  ${CtaTile}:hover & {
-    opacity: 1;
+  ${HeroCta}:hover & {
     transform: translateX(2px);
   }
 `;
 
-export const CtaButtonRow = styled.div`
+/* —— Listen control (outline trace along box border) —— */
+
+const listenBtnRadius = '15px';
+
+const outlineTravel = keyframes`
+  to {
+    stroke-dashoffset: -100;
+  }
+`;
+
+const neonBorderPulse = keyframes`
+  0%,
+  100% {
+    filter: drop-shadow(0 0 3px rgba(232, 197, 71, 0.85))
+      drop-shadow(0 0 10px rgba(212, 175, 55, 0.45));
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(255, 249, 230, 1))
+      drop-shadow(0 0 16px rgba(232, 197, 71, 0.7))
+      drop-shadow(0 0 24px rgba(212, 175, 55, 0.35));
+  }
+`;
+
+const barDance = keyframes`
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+`;
+
+export const ListenControlWrap = styled.div<{ $playing: boolean }>`
+  position: relative;
+  width: 100%;
+  border-radius: ${listenBtnRadius};
+`;
+
+export const ListenBorderSvg = styled.svg`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+  border-radius: ${listenBtnRadius};
+  animation: ${neonBorderPulse} 3s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    filter: drop-shadow(0 0 6px rgba(232, 197, 71, 0.55));
+  }
+`;
+
+export const ListenBorderTrack = styled.rect`
+  fill: none;
+  stroke: rgba(232, 197, 71, 0.42);
+  stroke-width: 1.5;
+`;
+
+export const ListenBorderTrace = styled.rect<{ $playing: boolean }>`
+  fill: none;
+  stroke: url(#heroListenBorderGlow);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 18 1000;
+  stroke-dashoffset: 0;
+  animation: ${outlineTravel} ${({ $playing }) => ($playing ? '2.8s' : '4.2s')} linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    stroke-dasharray: none;
+    stroke: rgba(232, 197, 71, 0.75);
+  }
+`;
+
+export const ListenControl = styled.button`
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.75rem 0.85rem 0.75rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  border: none;
+  border-radius: ${listenBtnRadius};
+  color: ${({ theme }) => theme.colors.white};
+  background: rgba(4, 4, 4, 0.88);
+  box-shadow: inset 0 0 18px rgba(212, 175, 55, 0.04);
+  transition: background 0.22s ease;
+
+  &:hover {
+    background: rgba(8, 8, 8, 0.92);
+  }
+
+  &:active {
+    background: rgba(12, 11, 8, 0.94);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.goldBright};
+    outline-offset: 3px;
+  }
+`;
+
+export const ListenIconRing = styled.span`
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 1.15rem;
+  color: ${({ theme }) => theme.colors.goldBright};
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.06);
+  border: 1.5px solid rgba(232, 197, 71, 0.65);
+  box-shadow:
+    0 0 8px rgba(232, 197, 71, 0.5),
+    inset 0 0 10px rgba(212, 175, 55, 0.12);
+`;
+
+export const ListenCopy = styled.span`
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  width: 100%;
-  max-width: 100%;
+  gap: 0.15rem;
+  flex: 1;
   min-width: 0;
+`;
 
-  .ant-btn {
-    width: 100%;
-    height: 44px !important;
-    padding-inline: 1rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
+export const ListenEyebrow = styled.span`
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+`;
 
-  @media (min-width: 1024px) {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 0.5rem;
+export const ListenLabel = styled.span`
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: ${({ theme }) => theme.colors.white};
+  text-shadow:
+    0 0 8px rgba(232, 197, 71, 0.55),
+    0 0 18px rgba(212, 175, 55, 0.3);
+`;
 
-    .ant-btn {
-      flex: 1 1 0;
-      width: auto;
-      min-width: 0;
-      height: 36px !important;
-      padding-inline: 0.5rem;
-      font-size: 0.6875rem;
-      letter-spacing: 0.01em;
-    }
-  }
+export const ListenBars = styled.span<{ $active: boolean }>`
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 1.35rem;
+  flex-shrink: 0;
+  opacity: ${({ $active }) => ($active ? 1 : 0.35)};
+  transition: opacity 0.25s ease;
+`;
 
-  @media (min-width: 1280px) {
-    gap: 0.6rem;
+export const ListenBar = styled.span<{ $index: number; $active: boolean }>`
+  display: block;
+  width: 3px;
+  height: 100%;
+  border-radius: ${({ theme }) => theme.radius.pill};
+  background: linear-gradient(180deg, #fff4cc 0%, ${({ theme }) => theme.colors.goldBright} 100%);
+  box-shadow: 0 0 8px rgba(232, 197, 71, 0.65);
+  transform-origin: center bottom;
+  transform: scaleY(0.35);
+  animation: ${({ $active }) => ($active ? barDance : 'none')} 0.9s ease-in-out infinite;
+  animation-delay: ${({ $index }) => $index * 0.12}s;
 
-    .ant-btn {
-      height: 38px !important;
-      padding-inline: 0.7rem;
-      font-size: 0.75rem;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transform: scaleY(${({ $active }) => ($active ? 0.85 : 0.35)});
   }
 `;
 

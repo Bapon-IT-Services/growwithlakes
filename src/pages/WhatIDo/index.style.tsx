@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { PageContainer, SectionShell } from '../../styles/sectionPrimitives';
+import { PageContainer, SectionShell, SectionTitle } from '../../styles/sectionPrimitives';
 
 export const Section = styled(SectionShell)`
   position: relative;
@@ -20,14 +20,26 @@ export const Inner = styled(PageContainer)`
   position: relative;
 `;
 
-export const Title = styled.h2`
-  margin: 0 0 clamp(2rem, 4vw, 2.75rem);
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: 500;
-  font-size: clamp(2.25rem, 5vw, 3.25rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: ${({ theme }) => theme.colors.white};
+export const Header = styled.div`
+  margin-bottom: clamp(2rem, 4vw, 2.75rem);
+  text-align: left;
+  max-width: 40rem;
+`;
+
+export const Rule = styled.span`
+  display: block;
+  width: 2.75rem;
+  height: 1px;
+  margin: 0 0 1rem;
+  background: linear-gradient(
+    90deg,
+    ${({ theme }) => theme.colors.gold},
+    rgba(212, 175, 55, 0.15)
+  );
+`;
+
+export const Title = styled(SectionTitle)`
+  
 `;
 
 export const Grid = styled.div`

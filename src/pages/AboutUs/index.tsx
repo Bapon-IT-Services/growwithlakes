@@ -11,12 +11,12 @@ export default function AboutUs() {
           <S.Header>
             <S.Rule aria-hidden />
             <S.Label>About Dr Lakes</S.Label>
-            <S.Title>Growth has never been a straight line for me</S.Title>
           </S.Header>
 
           <S.Layout>
             <S.Story>
               {/* <S.LeadCard> */}
+              <S.Paragraph>Growth has never been a straight line for me</S.Paragraph>
                 <S.Paragraph>
                   Like many people, I&apos;ve faced challenges that could easily have caused me
                   to stop, settle or give up on the things I believed were possible. Living with
@@ -32,9 +32,9 @@ export default function AboutUs() {
                 became the foundation of everything I do today.
               </S.Paragraph>
 
-              <S.PullQuote>
+              <S.Paragraph>
                 I didn&apos;t create Grow With Lakes because I wanted to become an influencer.
-              </S.PullQuote>
+              </S.Paragraph>
 
               <S.Paragraph>
                 I created it because I understand what it feels like to need encouragement,
@@ -49,7 +49,7 @@ export default function AboutUs() {
               </S.Paragraph>
 
               <S.Paragraph>
-                That passion led me to create Grow With Lakes — a platform built to connect
+                That passion led me to create Grow With Lakes a platform built to connect
                 people, create opportunities and encourage growth through meaningful
                 conversations, creative development, business support and collaboration.
               </S.Paragraph>

@@ -26,7 +26,7 @@ const partners = [
 
 /** Slower loop on a shorter track keeps logos readable */
 function marqueeDuration(trackWidth: number) {
-  return Math.max(10, trackWidth / 85);
+  return Math.max(20, trackWidth / 85);
 }
 
 export default function Partners() {
@@ -93,7 +93,7 @@ export default function Partners() {
           </S.PartnerMarqueeViewport>
           <S.CtaRow>
             <Space size="middle" wrap>
-              <Button type="primary" size="large" href={links.contactSection}>
+              <Button type="primary" size="large" href={links.careers}>
                 Become a Partner
               </Button>
               <Button size="large" href={links.contactSection}>
