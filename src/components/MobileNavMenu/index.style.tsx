@@ -23,7 +23,7 @@ export const MenuToggle = styled.button`
     color: ${({ theme }) => theme.colors.goldBright};
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: none;
   }
 `;

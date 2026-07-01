@@ -4,7 +4,7 @@ import { SectionTitle } from '../../styles/sectionPrimitives';
 export const Section = styled.section`
   position: relative;
   z-index: 1;
-  padding: clamp(2.75rem, 5vw, 4rem) 1.5rem;
+  padding: clamp(2.25rem, 5vw, 4rem) clamp(1rem, 4vw, 1.5rem);
   scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
   overflow: hidden;
 
@@ -58,7 +58,7 @@ export const Title = styled(SectionTitle)`
 
 export const Intro = styled.p`
   margin: 0;
-  font-size: 1.0625rem;
+  font-size: clamp(0.98rem, 2.2vw, 1.0625rem);
   line-height: 1.75;
   color: ${({ theme }) => theme.colors.muted};
 `;
@@ -125,7 +125,7 @@ export const CardIndex = styled.span`
 export const CardTitle = styled.h3`
   margin: 0 0 0.45rem;
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 1.35rem;
+  font-size: clamp(1.15rem, 2.5vw, 1.35rem);
   font-weight: 500;
   color: ${({ theme }) => theme.colors.white};
 `;

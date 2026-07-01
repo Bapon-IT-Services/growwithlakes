@@ -9,7 +9,7 @@ export const PageContainer = styled.div`
 export const SectionShell = styled.section`
   position: relative;
   z-index: 1;
-  padding: clamp(2.75rem, 5vw, 4rem) 1.5rem;
+  padding: clamp(2.25rem, 5vw, 4rem) clamp(1rem, 4vw, 1.5rem);
   scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
 `;
 
@@ -45,7 +45,12 @@ export const SectionTitle = styled.h2`
   font-size: clamp(1.15rem, 2.65vw, 2.5rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  white-space: nowrap;
+  white-space: normal;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    white-space: nowrap;
+  }
+
   background: linear-gradient(
     92deg,
     ${({ theme }) => theme.colors.white} 0%,
@@ -67,7 +72,7 @@ export const SectionTitle = styled.h2`
 
 export const SectionLead = styled.p`
   margin: 1rem 0 0;
-  font-size: 1.0625rem;
+  font-size: clamp(0.98rem, 2.2vw, 1.0625rem);
   line-height: 1.75;
   color: ${({ theme }) => theme.colors.muted};
 `;

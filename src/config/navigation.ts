@@ -12,15 +12,12 @@ export const primaryNavItems: HomeNavItem[] = [
   { to: '/#opportunities', label: 'Opportunities', sectionId: 'opportunities' },
   { to: '/#partners', label: 'Partners', sectionId: 'partners' },
   { to: '/#events', label: 'Events', sectionId: 'events' },
+
 ];
 
 /** Full site map — mobile menu & scroll spy */
 export const secondaryNavItems: HomeNavItem[] = [
-  { to: '/#contact', label: 'Enquire', sectionId: 'contact' },
-  { to: '/#impact', label: 'Impact', sectionId: 'impact' },
-  { to: '/#what-i-do', label: 'What I do', sectionId: 'what-i-do' },
-  { to: '/#work-with-me', label: 'Work with me', sectionId: 'work-with-me' },
-  { to: links.careers, label: 'Careers', sectionId: null },
+  { to: '/#contact', label: 'Contact Us', sectionId: 'contact' },
 ];
 
 export const homeNavItems: HomeNavItem[] = [...primaryNavItems, ...secondaryNavItems];

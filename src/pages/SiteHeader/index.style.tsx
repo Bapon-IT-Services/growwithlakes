@@ -20,14 +20,13 @@ export const Inner = styled.div`
   width: 100%;
   max-width: calc(${({ theme }) => theme.maxWidth} + 3rem);
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 clamp(0.85rem, 3vw, 1.5rem);
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.65rem, 2vw, 1.5rem);
 
-  @media (min-width: 768px) {
-    padding: 0 1.5rem;
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     gap: 1.5rem;
   }
 `;
@@ -39,7 +38,7 @@ export const Nav = styled.nav`
   gap: clamp(0.85rem, 1.8vw, 1.35rem);
   min-width: 0;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: flex;
   }
 `;
@@ -103,7 +102,7 @@ export const HeaderCta = styled.a`
     transform: translateY(-1px);
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: inline-flex;
   }
 `;
@@ -113,7 +112,7 @@ export const NavMobile = styled.div`
   align-items: center;
   justify-content: flex-end;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: none;
   }
 `;

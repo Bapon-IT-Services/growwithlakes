@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import BrandLogo from '../../components/BrandLogo';
 import MobileNavMenu from '../../components/MobileNavMenu';
 import {
@@ -85,6 +85,15 @@ export default function SiteHeader() {
         <BrandLogo />
         <S.Nav aria-label="Primary">
           {primaryNavItems.map((item) => {
+            if (item.sectionId === null) {
+              const isActive = pathname === item.to;
+              return (
+                <S.NavLink key={item.to} as={Link} to={item.to} data-active={isActive}>
+                  {item.label}
+                </S.NavLink>
+              );
+            }
+
             const isActive = isHome && activeId === item.sectionId;
             const href = isHome ? `#${item.sectionId}` : `/#${item.sectionId}`;
 

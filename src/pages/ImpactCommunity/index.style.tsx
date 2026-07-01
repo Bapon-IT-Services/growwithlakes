@@ -45,7 +45,7 @@ export const Body = styled(SectionLead)`
 export const Pillars = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.5rem 0.65rem;
 `;
 
 export const Pillar = styled.span`
@@ -73,7 +73,7 @@ export const BlockHeader = styled.div`
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.35rem 1.25rem;
+  gap: 0.5rem 1.25rem;
   margin-bottom: clamp(1.35rem, 3vw, 1.85rem);
   padding-bottom: 0.85rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
@@ -101,8 +101,14 @@ export const BlockHint = styled.span`
 export const TestimonialGrid = styled.div`
   display: grid;
   gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
 
-  @media (min-width: 768px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.15rem;
   }

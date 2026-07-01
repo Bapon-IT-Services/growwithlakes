@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 
 export const Name = styled.span`
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 1.5rem;
+  font-size: clamp(1.15rem, 3.5vw, 1.5rem);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: 0.01em;
   color: ${({ theme }) => theme.colors.white};
   transition: color 0.25s ease;
-  white-space: nowrap;
 `;
 
 export const Brand = styled(Link)`
@@ -52,5 +51,8 @@ export const Tag = styled.span`
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.mutedDark};
-  white-space: nowrap;
+
+  @media (max-width: 359px) {
+    display: none;
+  }
 `;

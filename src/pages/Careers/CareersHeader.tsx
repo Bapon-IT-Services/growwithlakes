@@ -25,11 +25,11 @@ export default function CareersHeader() {
       <S.CareersHeaderInner>
         <S.BackLink to="/">
           <ArrowLeftOutlined aria-hidden />
-          Grow With Lakes · Platform
+          Grow With Lakes
         </S.BackLink>
         <S.CareersHeaderMark>Careers</S.CareersHeaderMark>
         <S.CareersHeaderEnd>
-          <S.CareersHeaderAction to="/#contact">Contact</S.CareersHeaderAction>
+          <S.CareersHeaderAction to="/#contact">Contact Us</S.CareersHeaderAction>
           <MobileNavMenu links={mobileLinks} menuLabel="Open site menu" />
         </S.CareersHeaderEnd>
       </S.CareersHeaderInner>

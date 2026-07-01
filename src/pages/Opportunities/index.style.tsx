@@ -11,8 +11,7 @@ export const Section = styled(SectionShell)``;
 export const Panel = styled.div`
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  padding: clamp(1.5rem, 3.5vw, 2.25rem);
-  overflow: hidden;
+  padding: clamp(1.25rem, 3.5vw, 2.25rem) clamp(1rem, 3vw, 1.5rem);
 `;
 
 export const Header = styled.header`
@@ -37,33 +36,31 @@ export const Text = styled.p`
 
 export const OpportunityGrid = styled.ul`
   display: flex;
-  gap: 0.65rem;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: clamp(0.85rem, 2.5vw, 1.75rem);
   padding: 0;
+  margin-bottom: 1.5rem;
   list-style: none;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 
-  @media (min-width: 540px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (min-width: 900px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
 export const OpportunityItem = styled.li`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  min-height: 3rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.9375rem;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
   font-weight: 500;
   line-height: 1.35;
   color: ${({ theme }) => theme.colors.white};
-  transition:
-    border-color 0.25s ease,
-    background 0.25s ease;
 
   &::before {
     content: '';
@@ -73,19 +70,6 @@ export const OpportunityItem = styled.li`
     border-radius: 50%;
     background: ${({ theme }) => theme.colors.gold};
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.45);
-  }
-
-  // &:hover {
-  //   background: rgba(212, 175, 55, 0.06);
-  //   border-color: rgba(212, 175, 55, 0.28);
-  // }
-
-  &:last-child:nth-child(odd) {
-    @media (min-width: 540px) and (max-width: 899px) {
-      grid-column: 1 / -1;
-      max-width: calc(50% - 0.375rem);
-      justify-self: center;
-    }
   }
 `;
 

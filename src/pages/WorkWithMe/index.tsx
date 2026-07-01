@@ -21,11 +21,6 @@ export default function WorkWithMe() {
             <S.Rule aria-hidden />
             <S.Label>Work With Me</S.Label>
             <S.Title>Collaborate with Dr Lakes</S.Title>
-            <S.Intro>
-              Book a free consultation to explore coaching, artist development, event support,
-              community projects, partnerships or business growth conversations through the
-              Grow With Lakes platform.
-            </S.Intro>
           </S.Header>
           <S.Grid>
             {services.map((item) => (

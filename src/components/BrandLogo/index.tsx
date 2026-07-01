@@ -31,7 +31,7 @@ export default function BrandLogo() {
       </S.Mark> */}
       <S.Wordmark>
         <S.Name>Grow With Lakes</S.Name>
-        <S.Tag>Platform · Dr Lakes</S.Tag>
+        <S.Tag>· Dr Lakes</S.Tag>
       </S.Wordmark>
     </S.Brand>
   );

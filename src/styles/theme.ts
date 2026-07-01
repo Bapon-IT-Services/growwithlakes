@@ -17,6 +17,12 @@ export const theme = {
   },
   maxWidth: '1120px',
   headerHeight: '72px',
+  breakpoints: {
+    sm: '640px',
+    md: '768px',
+    lg: '900px',
+    xl: '1024px',
+  },
   radius: {
     sm: '10px',
     md: '16px',

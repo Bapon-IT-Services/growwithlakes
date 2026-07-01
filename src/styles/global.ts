@@ -9,11 +9,13 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     scroll-behavior: auto;
+    overflow-x: clip;
   }
 
   body {
     margin: 0;
     min-height: 100vh;
+    overflow-x: clip;
     background: ${({ theme }) => theme.colors.bg};
     color: ${({ theme }) => theme.colors.white};
     font-family: ${({ theme }) => theme.fonts.body};

@@ -43,9 +43,14 @@ export const Section = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(${({ theme }) => theme.headerHeight} + 2.5rem) 1.5rem clamp(3rem, 8vw, 5rem);
+  padding: calc(${({ theme }) => theme.headerHeight} + clamp(1.75rem, 5vw, 2.5rem))
+    clamp(1rem, 4vw, 1.5rem) clamp(2.5rem, 8vw, 5rem);
   overflow: hidden;
   background: transparent;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    min-height: auto;
+  }
 `;
 
 /** Soft hero-only light pools — no solid bands, sits on global backdrop */
@@ -440,7 +445,7 @@ export const ListenControl = styled.button`
   gap: 0.75rem;
   width: 100%;
   margin: 0;
-  padding: 0.75rem 0.85rem 0.75rem 0.75rem;
+  padding:1rem;
   text-align: left;
   cursor: pointer;
   border: none;
@@ -540,9 +545,10 @@ export const VisualCol = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 280px;
+  min-height: clamp(220px, 50vw, 280px);
+  width: 100%;
 
-  @media (min-width: 1024px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     min-height: 360px;
   }
 `;

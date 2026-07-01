@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Section = styled.section`
   position: relative;
   z-index: 1;
-  padding: 3.25rem 1.5rem 2.75rem;
+  padding: clamp(2.5rem, 5vw, 3.25rem) clamp(1rem, 4vw, 1.5rem) clamp(2rem, 4vw, 2.75rem);
   background: transparent;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;

@@ -13,10 +13,10 @@ export const Section = styled(SectionShell)``;
 
 export const Inner = styled(PageContainer)`
   display: grid;
-  gap: 2.5rem;
+  gap: clamp(1.75rem, 4vw, 2.5rem);
   text-align: left;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     grid-template-columns: 0.95fr 1.05fr;
     gap: 3.5rem;
     align-items: start;
@@ -28,7 +28,7 @@ export const IntroCol = styled.div``;
 export const FormCol = styled.div`
   padding-top: 0.25rem;
 
-  @media (min-width: 900px) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     padding: 1.5rem 0 1.5rem 2.5rem;
     border-left: 1px solid ${({ theme }) => theme.colors.border};
   }

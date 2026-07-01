@@ -15,6 +15,7 @@ const heroCtas = [
 ] as const;
 
 export default function Hero() {
+  
   useDrLakesHeroAudio();
   const { isPlaying, togglePlayback } = useDrLakesAudio();
 
@@ -99,11 +100,6 @@ export default function Hero() {
                     <S.ListenCopy>
                       <S.ListenLabel>{isPlaying ? 'Pause audio' : 'Listen now'}</S.ListenLabel>
                     </S.ListenCopy>
-                    <S.ListenBars aria-hidden $active={isPlaying}>
-                      {[0, 1, 2, 3, 4].map((i) => (
-                        <S.ListenBar key={i} $index={i} $active={isPlaying} />
-                      ))}
-                    </S.ListenBars>
                   </S.ListenControl>
                 </S.ListenControlWrap>
               </S.ButtonRow>

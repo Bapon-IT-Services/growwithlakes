@@ -1,3 +1,6 @@
+const loremTwoLines =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
 export const impactPillars = [
   'Conversation',
   'Community',
@@ -8,22 +11,19 @@ export const impactPillars = [
 export const testimonials = [
   {
     id: 't1',
-    quote:
-      'Grow With Lakes opened doors I did not know existed. Within weeks I was connected to collaborators, mentors and my first paid creative opportunity.',
+    quote: loremTwoLines,
     name: 'Amara O.',
     role: 'Independent artist',
   },
   {
     id: 't2',
-    quote:
-      'The platform feels human. It is not just networking it is genuine support, real conversations and people who actually show up for the community.',
+    quote: loremTwoLines,
     name: 'Jordan M.',
     role: 'Community organiser',
   },
   {
     id: 't3',
-    quote:
-      'From a single workshop to a full partnership Dr Lakes helped us structure our idea, find the right people and grow with confidence.',
+    quote: loremTwoLines,
     name: 'Priya K.',
     role: 'Small business founder',
   },
@@ -34,28 +34,22 @@ export const caseStudies = [
     id: 'cs1',
     tag: 'Artist development',
     title: 'From open mic to released single',
-    challenge:
-      'An emerging vocalist needed direction, production contacts and a clear path from local performances to a professional release.',
-    result:
-      'Connected with an A&R mentor, recorded a debut single and secured a slot at a Grow With Lakes live showcase.',
+    challenge: loremTwoLines,
+    result: loremTwoLines,
   },
   {
     id: 'cs2',
     tag: 'Community partnership',
     title: 'Youth programme local business network',
-    challenge:
-      'A community group wanted to run employability workshops but lacked venues, speakers and cross-sector buy-in.',
-    result:
-      'Three partner organisations co-hosted six sessions 40+ young people attended and five secured work placements.',
+    challenge: loremTwoLines,
+    result: loremTwoLines,
   },
   {
     id: 'cs3',
     tag: 'Business growth',
     title: 'Hospitality brand repositioning',
-    challenge:
-      'A family-run food business needed brand clarity, event presence and a strategy to reach new audiences beyond their local area.',
-    result:
-      'Refined brand story, launched at a networking event and grew social following by 120% over three months.',
+    challenge: loremTwoLines,
+    result: loremTwoLines,
   },
 ] as const;
 
@@ -72,8 +66,7 @@ export const impactStories = [
   {
     id: 'is1',
     headline: 'A room that changed everything',
-    excerpt:
-      'Marcus arrived at his first Grow With Lakes event unsure whether he belonged. He left with two introductions that led to a podcast feature and a paid coaching client.',
+    excerpt: loremTwoLines,
     person: 'Marcus T.',
     context: 'Coach & facilitator',
     stat: '2 opportunities within 30 days',
@@ -81,8 +74,7 @@ export const impactStories = [
   {
     id: 'is2',
     headline: 'Building in public, growing together',
-    excerpt:
-      'When Layla shared her business idea at a Sunday Growth Conversation, the feedback was honest and encouraging. Six months later her community project had funding and a volunteer team.',
+    excerpt: loremTwoLines,
     person: 'Layla R.',
     context: 'Social enterprise founder',
     stat: 'Funded community pilot launched',
@@ -90,8 +82,7 @@ export const impactStories = [
   {
     id: 'is3',
     headline: 'From isolation to collaboration',
-    excerpt:
-      'After years of working alone, Dev found a creative circle through the platform co-writing sessions, shared gigs and a collective that now books regular events across the city.',
+    excerpt: loremTwoLines,
     person: 'Dev S.',
     context: 'Musician & producer',
     stat: '5-artist collective formed',

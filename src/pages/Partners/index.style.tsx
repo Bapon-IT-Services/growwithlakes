@@ -13,7 +13,7 @@ const marqueeScroll = keyframes`
 export const Section = styled.section`
   position: relative;
   z-index: 1;
-  padding: clamp(2.75rem, 5vw, 4rem) 1.5rem;
+  padding: clamp(2.25rem, 5vw, 4rem) clamp(1rem, 4vw, 1.5rem);
   background: transparent;
   scroll-margin-top: calc(${({ theme }) => theme.headerHeight} + 16px);
 `;

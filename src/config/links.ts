@@ -28,7 +28,7 @@ export const links = {
   eventbrite: 'https://www.eventbrite.com/',
   freeConsultation: 'https://calendly.com/',
   viewEvents: 'https://www.eventbrite.com/',
-  generalCareerApply: generalCareerInquiryMail(),
+  generalCareerApply:'/#contact',
   email: 'growwithlakes@gmail.com',
   phone: 'tel:+442031054511',
   /** Social placeholders — update when profiles go live */
