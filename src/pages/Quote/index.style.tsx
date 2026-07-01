@@ -55,7 +55,6 @@ export const Blockquote = styled.blockquote`
 
 export const Attribution = styled.cite`
   display: block;
-  margin-top: 1.5rem;
   font-size: 0.75rem;
   font-weight: 600;
   font-style: normal;

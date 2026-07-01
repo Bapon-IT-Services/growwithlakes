@@ -100,11 +100,14 @@ export const PortraitLabel = styled.span`
 
 export const SideQuote = styled.blockquote`
   margin: 0;
+  width: 100%;
+  text-align: center;
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
-  font-weight: 500;
+  font-size: clamp(0.9rem, 2vw, 1.3rem);
+  font-weight: 600;
   font-style: italic;
   line-height: 1.35;
+  white-space: nowrap;
   color: ${({ theme }) => theme.colors.gold};
 `;
 
@@ -362,6 +365,10 @@ export const TogetherBand = styled.div`
   max-width: 100%;
   margin: 0 auto;
   padding-top: 0.35rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    flex-wrap: nowrap;
+  }
 `;
 
 export const TogetherPhrase = styled.span`

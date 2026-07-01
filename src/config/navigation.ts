@@ -12,6 +12,7 @@ export const primaryNavItems: HomeNavItem[] = [
   { to: '/#opportunities', label: 'Opportunities', sectionId: 'opportunities' },
   { to: '/#partners', label: 'Partners', sectionId: 'partners' },
   { to: '/#events', label: 'Events', sectionId: 'events' },
+  { to: links.careers, label: 'Careers', sectionId: null },
 
 ];
 
