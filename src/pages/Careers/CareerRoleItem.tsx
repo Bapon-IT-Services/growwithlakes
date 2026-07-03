@@ -24,10 +24,6 @@ export default function CareerRoleItem({ role, index }: CareerRoleItemProps) {
     <S.RoleItem
       variants={popIn}
       $active={isOpen}
-      whileHover={{
-        x: 4,
-        transition: { type: 'spring', stiffness: 400, damping: 28 },
-      }}
     >
       <S.RoleIndex $active={isOpen} aria-hidden>
         {String(index + 1).padStart(2, '0')}

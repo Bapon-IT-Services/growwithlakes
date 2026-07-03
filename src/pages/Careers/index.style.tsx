@@ -26,7 +26,7 @@ export const CareersHeader = styled.header`
   left: 0;
   right: 0;
   z-index: 100;
-  height: ${({ theme }) => theme.headerHeight};
+  min-height: ${({ theme }) => theme.headerHeight};
   display: flex;
   align-items: center;
   background: rgba(8, 6, 4, 0.88);
@@ -39,24 +39,57 @@ export const CareersHeaderInner = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 1.5rem);
+  padding: 0 clamp(0.85rem, 4vw, 1.5rem);
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: clamp(0.65rem, 2vw, 1rem);
+  gap: 0.75rem;
+
+  @media (min-width: 480px) {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: clamp(0.65rem, 2vw, 1rem);
+  }
 `;
 
 export const BackLink = styled(Link)`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
+  gap: 0.45rem;
+  min-width: 0;
+  font-size: clamp(0.75rem, 2.5vw, 0.8125rem);
   letter-spacing: 0.06em;
   color: ${({ theme }) => theme.colors.muted};
   transition: color 0.25s ease;
+  justify-self: start;
+  grid-column: 1;
+  grid-row: 1;
 
   &:hover {
     color: ${({ theme }) => theme.colors.gold};
+  }
+
+  .anticon {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+  }
+`;
+
+export const BackLinkShort = styled.span`
+  display: inline;
+
+  @media (min-width: 520px) {
+    display: none;
+  }
+`;
+
+export const BackLinkFull = styled.span`
+  display: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (min-width: 520px) {
+    display: inline;
   }
 `;
 
@@ -67,6 +100,15 @@ export const CareersHeaderMark = styled.span`
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
+  justify-self: center;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  pointer-events: none;
+
+  @media (min-width: 480px) {
+    grid-column: 2;
+    pointer-events: auto;
+  }
 
   @media (max-width: 479px) {
     display: none;
@@ -77,21 +119,28 @@ export const CareersHeaderEnd = styled.div`
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: clamp(0.5rem, 2vw, 0.75rem);
+  grid-column: 2;
+  grid-row: 1;
+
+  @media (min-width: 480px) {
+    grid-column: 3;
+  }
 `;
 
 export const CareersHeaderAction = styled(Link)`
-  font-size: 0.8125rem;
-  letter-spacing: 0.12em;
+  font-size: clamp(0.6875rem, 2vw, 0.8125rem);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.gold};
+  white-space: nowrap;
   transition: opacity 0.25s ease;
 
   &:hover {
     opacity: 0.8;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     display: none;
   }
 `;
@@ -123,24 +172,28 @@ export const GridOverlay = styled.div`
 export const Hero = styled.section`
   position: relative;
   z-index: 1;
-  padding: calc(${({ theme }) => theme.headerHeight} + clamp(2.5rem, 6vw, 4rem))
-    clamp(1rem, 4vw, 1.5rem) clamp(2.5rem, 6vw, 4rem);
+  padding: calc(${({ theme }) => theme.headerHeight} + clamp(1.75rem, 5vw, 4rem))
+    clamp(0.85rem, 4vw, 1.5rem) clamp(2rem, 6vw, 4rem);
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
+  width: 100%;
+  min-width: 0;
 `;
 
 export const HeroEyebrow = styled.span`
   display: inline-block;
+  max-width: 100%;
   margin-bottom: 1.25rem;
-  padding: 0.35rem 0.9rem;
+  padding: 0.35rem clamp(0.65rem, 2vw, 0.9rem);
   border-radius: ${({ theme }) => theme.radius.pill};
   border: 1px solid rgba(212, 175, 55, 0.35);
   background: rgba(212, 175, 55, 0.08);
-  font-size: 0.6875rem;
-  letter-spacing: 0.2em;
+  font-size: clamp(0.5625rem, 2vw, 0.6875rem);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.gold};
   font-weight: 600;
+  line-height: 1.45;
 `;
 
 export const HeroTitle = styled.h1`
@@ -148,7 +201,7 @@ export const HeroTitle = styled.h1`
   max-width: 30ch;
   font-family: ${({ theme }) => theme.fonts.display};
   font-weight: 400;
-  font-size: clamp(2.75rem, 8vw, 4.5rem);
+  font-size: clamp(2.15rem, 9vw, 4.5rem);
   line-height: 1.05;
   color: ${({ theme }) => theme.colors.white};
 `;
@@ -172,7 +225,7 @@ export const HeroAccent = styled.span`
 export const HeroLead = styled.p`
   margin: 0;
   max-width: 36rem;
-  font-size: 1.125rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
   line-height: 1.75;
   color: ${({ theme }) => theme.colors.muted};
 `;
@@ -206,10 +259,10 @@ export const InlineLink = styled(Link)`
 `;
 
 export const PillRow = styled(motion.div)`
-  margin-top: 2rem;
+  margin-top: clamp(1.5rem, 4vw, 2rem);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.625rem;
+  gap: 0.5rem;
 `;
 
 const pillAreaStyles: Record<FocusArea, ReturnType<typeof css>> = {
@@ -269,11 +322,11 @@ export const Pill = styled(motion.span)<{ $area: FocusArea }>`
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.35rem clamp(0.65rem, 2vw, 0.85rem);
   border-radius: ${({ theme }) => theme.radius.pill};
-  font-size: 0.75rem;
+  font-size: clamp(0.625rem, 2vw, 0.75rem);
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   border: 1px solid;
   transition:
@@ -299,9 +352,19 @@ export const Pill = styled(motion.span)<{ $area: FocusArea }>`
 export const RolesSection = styled.section`
   position: relative;
   z-index: 1;
-  padding: 2rem clamp(1rem, 4vw, 1.5rem) clamp(3rem, 8vw, 5rem);
+  padding: clamp(1.5rem, 4vw, 2rem) clamp(0.85rem, 4vw, 1.5rem) clamp(2.5rem, 8vw, 5rem);
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
+  width: 100%;
+  min-width: 0;
+`;
+
+export const RolesIntro = styled.p`
+  margin: 0 0 2rem;
+  max-width: 40rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1rem);
+  line-height: 1.7;
+  color: ${({ theme }) => theme.colors.muted};
 `;
 
 export const RolesHeading = styled.h2`
@@ -310,14 +373,6 @@ export const RolesHeading = styled.h2`
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 500;
   color: ${({ theme }) => theme.colors.white};
-`;
-
-export const RolesIntro = styled.p`
-  margin: 0 0 2rem;
-  max-width: 40rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: ${({ theme }) => theme.colors.muted};
 `;
 
 export const RoleList = styled(motion.ol)`
@@ -334,11 +389,16 @@ export const RoleActions = styled.div`
   align-items: center;
   gap: 0.625rem;
   flex-shrink: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    justify-content: flex-end;
+  .ant-btn {
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: auto;
+    justify-content: flex-start;
   }
 `;
 
@@ -352,7 +412,9 @@ export const RoleItem = styled(motion.li)<{ $active?: boolean }>`
   border-radius: ${({ theme }) => theme.radius.sm};
   transition:
     background 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease,
+    transform 0.25s ease;
+  min-width: 0;
 
   ${({ $active }) =>
     $active &&
@@ -361,23 +423,31 @@ export const RoleItem = styled(motion.li)<{ $active?: boolean }>`
       border-bottom-color: rgba(212, 175, 55, 0.28);
     `}
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-columns: auto 1fr;
-    gap: 1rem;
+    gap: 0.85rem 1rem;
 
     ${RoleActions} {
-      grid-column: 1 / -1;
-      justify-content: flex-end;
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: start;
+      margin-top: 0.25rem;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateX(4px);
     }
   }
 `;
 
 export const RoleIndex = styled.span<{ $active?: boolean }>`
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-size: clamp(1.65rem, 5vw, 2.5rem);
   line-height: 1;
   font-weight: 600;
-  min-width: 2.75rem;
+  min-width: 2.25rem;
   color: ${({ theme }) => theme.colors.gold};
   text-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
   transition:
@@ -434,8 +504,8 @@ export const RoleDescription = styled(motion.div)`
 
 export const RoleDescriptionInner = styled.p`
   margin: 1rem 0 0;
-  padding: 1rem 1.125rem;
-  font-size: 0.9375rem;
+  padding: clamp(0.85rem, 2.5vw, 1rem) clamp(0.85rem, 2.5vw, 1.125rem);
+  font-size: clamp(0.875rem, 2.2vw, 0.9375rem);
   line-height: 1.7;
   color: ${({ theme }) => theme.colors.muted};
   border-left: 2px solid rgba(212, 175, 55, 0.45);
@@ -495,11 +565,11 @@ export const ExpandButton = styled.button`
 export const CtaBand = styled.section`
   position: relative;
   z-index: 1;
-  margin: 0 clamp(1rem, 4vw, 1.5rem) clamp(2.5rem, 8vw, 4rem);
+  margin: 0 clamp(0.85rem, 4vw, 1.5rem) clamp(2rem, 8vw, 4rem);
   max-width: ${({ theme }) => theme.maxWidth};
   margin-left: auto;
   margin-right: auto;
-  padding: clamp(2rem, 5vw, 3rem);
+  padding: clamp(1.5rem, 5vw, 3rem);
   border-radius: ${({ theme }) => theme.radius.lg};
   border: 1px solid rgba(212, 175, 55, 0.28);
   background: linear-gradient(
@@ -509,6 +579,7 @@ export const CtaBand = styled.section`
     rgba(212, 175, 55, 0.06) 100%
   );
   text-align: center;
+  min-width: 0;
 `;
 
 export const CtaTitle = styled.h2`
@@ -522,7 +593,7 @@ export const CtaTitle = styled.h2`
 export const CtaText = styled.p`
   margin: 0 auto 1.5rem;
   max-width: 32rem;
-  font-size: 1rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1rem);
   line-height: 1.7;
   color: ${({ theme }) => theme.colors.muted};
 `;
@@ -532,4 +603,17 @@ export const CtaRow = styled.div`
   flex-wrap: wrap;
   gap: 0.875rem;
   justify-content: center;
+
+  .ant-btn {
+    min-width: 0;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .ant-btn {
+      width: 100%;
+    }
+  }
 `;

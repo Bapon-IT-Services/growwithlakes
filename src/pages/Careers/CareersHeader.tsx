@@ -25,7 +25,8 @@ export default function CareersHeader() {
       <S.CareersHeaderInner>
         <S.BackLink to="/">
           <ArrowLeftOutlined aria-hidden />
-          Grow With Lakes
+          <S.BackLinkShort>Back</S.BackLinkShort>
+          <S.BackLinkFull>Grow With Lakes</S.BackLinkFull>
         </S.BackLink>
         <S.CareersHeaderMark>Careers</S.CareersHeaderMark>
         <S.CareersHeaderEnd>
