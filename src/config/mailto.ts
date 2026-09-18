@@ -1,4 +1,4 @@
-const CONTACT_EMAIL = 'jamaila@growwithlakes.com';
+import { appEnv } from './env';
 
 /** Encode mailto query params — use %20 not + so clients show spaces correctly. */
 function encodeMailtoQuery(subject: string, body: string) {
@@ -9,7 +9,7 @@ function encodeMailtoQuery(subject: string, body: string) {
 }
 
 export function buildMailto(subject: string, body: string) {
-  return `mailto:${CONTACT_EMAIL}?${encodeMailtoQuery(subject, body)}`;
+  return `mailto:${appEnv.mailtoEmail}?${encodeMailtoQuery(subject, body)}`;
 }
 
 export function careerApplicationMail(roleTitle: string) {

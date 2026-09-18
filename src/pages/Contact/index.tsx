@@ -25,11 +25,11 @@ export default function Contact() {
             <S.SideBlock>
               <S.SideLabel>Direct</S.SideLabel>
               <S.Details>
-                <S.Link href={links.email} {...linkMotion}>
-                growwithlakes@gmail.com
+                <S.Link href={links.emailHref} {...linkMotion}>
+                  {links.email}
                 </S.Link>
                 <S.Phone href={links.phone} {...linkMotion}>
-                  +44 0203 105 4511
+                  {links.phoneDisplay}
                 </S.Phone>
 
 
